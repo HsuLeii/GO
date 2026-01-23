@@ -11,13 +11,13 @@
     </style>
 </head>
 <body>
-    <h2>實時聊天室</h2>
+    <h2>實時聊天室123</h2>
     <ul id="messages"></ul>
     <input id="input" autocomplete="off" placeholder="輸入訊息..." /><button onclick="sendMessage()">傳送</button>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
-        const socket = io();
+        const socket = io("https://go-eslo.onrender.com");
 
         // 監聽伺服器傳來的訊息
         socket.on('chat_message', (msg) => {
