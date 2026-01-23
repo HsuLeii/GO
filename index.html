@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.io 聊天室</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #messages { list-style-type: none; margin: 0; padding: 0; border: 1px solid #ddd; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+        #messages li { padding: 8px; border-bottom: 1px solid #eee; }
+        input { padding: 10px; width: 70%; }
+        button { padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>實時聊天室</h2>
+    <ul id="messages"></ul>
+    <input id="input" autocomplete="off" placeholder="輸入訊息..." /><button onclick="sendMessage()">傳送</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // 監聽伺服器傳來的訊息
+        socket.on('chat_message', (msg) => {
+            const item = document.createElement('li');
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+            // 自動捲動到底部
+            const msgBox = document.getElementById('messages');
+            msgBox.scrollTop = msgBox.scrollHeight;
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('input');
+            if (input.value) {
+                // 發送訊息給伺服器
+                socket.emit('chat_message', input.value);
+                input.value = '';
+            }
+        }
+
+        // 支援按 Enter 傳送
+        document.getElementById('input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
