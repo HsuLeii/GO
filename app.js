@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "https://hsuleii.github.io", // 替換成你的 GitHub Pages 網址
+        methods: ["GET", "POST"]
+    }
+});
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
