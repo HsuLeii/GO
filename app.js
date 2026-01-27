@@ -109,6 +109,21 @@ async function checkTickets() {
 }
 
 checkTickets();
+
+// ==================== LINE 發送函式 ====================
+async function sendLineMessage(text) {
+
+    messages: [
+      {
+        type: "text",
+        text: text,
+      },
+    ]
+  
+}
+
+sendLineMessage();
+
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
 // 或使用 cron 定時執行
@@ -118,7 +133,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 
 // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${GREETING})`;
+    const statusMsg = `系統狀態：正常 (${GREETING}${messages})`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
