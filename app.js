@@ -112,7 +112,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 
 // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${ticketMessage}`;
+    const statusMsg = `系統狀態：正常 (${GREETING}`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
