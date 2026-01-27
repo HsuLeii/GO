@@ -99,8 +99,6 @@ async function checkTickets() {
       })
     })
 
-    // 4. 發送 LINE Push Message
-    console.log(messageBody)
   } catch (error) {
   } 
 }
@@ -114,7 +112,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 
 // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${messageBody}`;
+    const statusMsg = `系統狀態：正常 (${ticketMessage}`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
