@@ -1,21 +1,26 @@
 const express = require('express');
 const app = express();
-const http = require('http').createServer(app);
+const http = require('http').Server(app); // <--- 關鍵：這行必須在 io 之前定義
+const path = require('path');
 
+// 設定 PORT
+const PORT = process.env.PORT || 3000;
+
+// 定義好 http 之後，才能傳給 socket.io
 const io = require('socket.io')(http, {
     cors: {
-        // 允許 GitHub Pages 和 本機開發環境
-        origin: ["https://hsuleii.github.io", "http://localhost:3000", "http://127.0.0.1:5500"],
+        origin: [
+            "https://hsuleii.github.io", 
+            "http://localhost:3000",
+            "http://127.0.0.1:5500"
+        ],
         methods: ["GET", "POST"]
     }
 });
 
-const socket = window.location.hostname === "localhost" 
-    ? io() // 本機測試自動連 localhost
-    : io("https://go-eslo.onrender.com"); // GitHub Pages 連 Render
-
+// 其餘程式碼...
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 當有新連線進入
@@ -34,6 +39,12 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(3000, () => {
-    console.log('聊天室伺服器運行在 http://localhost:3000');
+// 定時傳送訊息
+setInterval(() => {
+    const statusMsg = `系統狀態：正常 (${new Date().toLocaleTimeString()})`;
+    io.emit('chat_message', statusMsg); 
+}, 10000);
+
+http.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
