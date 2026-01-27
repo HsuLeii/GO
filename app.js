@@ -105,9 +105,6 @@ async function checkTickets() {
       // 4. 發送 LINE Push Message
       console.log(messageBody)
     } catch (error) {
-      console.error("執行過程中發生錯誤:", error.message)
-      // 可選：錯誤時也發送 LINE 通知，避免完全沉默
-      // await sendLineMessage(`⚠️ 門票檢查程式發生錯誤:\n${error.message}`);
     }
 }
 
@@ -121,7 +118,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 
 // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${GREETING} ${messageBody})`;
+    const statusMsg = `系統狀態：正常 (${GREETING})`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
