@@ -1,12 +1,18 @@
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
+
 const io = require('socket.io')(http, {
     cors: {
-        origin: "https://hsuleii.github.io", // 替換成你的 GitHub Pages 網址
+        // 允許 GitHub Pages 和 本機開發環境
+        origin: ["https://hsuleii.github.io", "http://localhost:3000", "http://127.0.0.1:5500"],
         methods: ["GET", "POST"]
     }
 });
+
+const socket = window.location.hostname === "localhost" 
+    ? io() // 本機測試自動連 localhost
+    : io("https://go-eslo.onrender.com"); // GitHub Pages 連 Render
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
