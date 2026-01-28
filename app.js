@@ -18,8 +18,6 @@ const io = require('socket.io')(http, {
     }
 });
 
-const GREETING = 'Hello, world!';
-
 
 const axios = require("axios")
 const cheerio = require("cheerio")
