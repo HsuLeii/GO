@@ -47,7 +47,6 @@ app.get('/', (req, res) => {
 async function checkTickets() {
   console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
 
-  try {
       // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
       const response = await axios.get(CONFIG.TARGET_URL, {
         headers: {
@@ -104,8 +103,7 @@ async function checkTickets() {
   
       // 4. 發送 LINE Push Message
       console.log(messageBody)
-    } catch (error) {
-    }
+   
 }
 
 checkTickets();
