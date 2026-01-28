@@ -25,6 +25,8 @@ const axios = require("axios")
 const cheerio = require("cheerio")
 const cron = require("node-cron")
 
+const messageBody = 'Hello!';
+
 // ==================== 設定區 ====================
 const CONFIG = {
   TKURL: "https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087",
@@ -110,6 +112,7 @@ async function checkTickets() {
 
 checkTickets();
 
+
 // ==================== LINE 發送函式 ====================
 // async function sendLineMessage(text) {
 
@@ -133,7 +136,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 
 // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${GREETING})`;
+    const statusMsg = `系統狀態：正常 (${messageBody})`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
