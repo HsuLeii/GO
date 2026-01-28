@@ -20,7 +20,7 @@ const io = require('socket.io')(http, {
 
 
 const axios = require("axios")
-const cheerio = require("cheerio")
+// const cheerio = require("cheerio")
 const cron = require("node-cron")
 
 const messageBody = 'Hello!';
@@ -60,13 +60,13 @@ async function checkTickets() {
     //     timeout: 15000, // 15 秒超時
     //   })
   
-      if (response.status !== 200) {
-        console.error(`網頁請求失敗，狀態碼: ${response.status}`)
-        return
-      }
+    //   if (response.status !== 200) {
+    //     console.error(`網頁請求失敗，狀態碼: ${response.status}`)
+    //     return
+    //   }
   
       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
-      const $ = cheerio.load(response.data)
+    //   const $ = cheerio.load(response.data)
       const article = $("article")
       // 3. 構建訊息
       let messageBody = ""
