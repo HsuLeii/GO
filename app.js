@@ -48,17 +48,17 @@ async function checkTickets() {
   console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
 
       // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
-      const response = await axios.get(CONFIG.TARGET_URL, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.9",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive",
-          "Upgrade-Insecure-Requests": "1",
-        },
-        timeout: 15000, // 15 秒超時
-      })
+    //   const response = await axios.get(CONFIG.TARGET_URL, {
+    //     headers: {
+    //       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
+    //       Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    //       "Accept-Language": "en-US,en;q=0.9",
+    //       "Accept-Encoding": "gzip, deflate, br",
+    //       Connection: "keep-alive",
+    //       "Upgrade-Insecure-Requests": "1",
+    //     },
+    //     timeout: 15000, // 15 秒超時
+    //   })
   
       if (response.status !== 200) {
         console.error(`網頁請求失敗，狀態碼: ${response.status}`)
