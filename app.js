@@ -104,24 +104,15 @@ async function checkTickets() {
       // 4. 發送 LINE Push Message
       console.log(messageBody)
    
+      // 定時傳送訊息
+setInterval(() => {
+    const statusMsg = `系統狀態：正常 (${messageBody})`;
+    io.emit('chat_message', statusMsg); 
+}, 10000);
 }
 
-checkTickets();
 
-
-// ==================== LINE 發送函式 ====================
-// async function sendLineMessage(text) {
-
-//     messages: [
-//       {
-//         type: "text",
-//         text: text,
-//       },
-//     ]
-  
-// }
-
-// sendLineMessage();
+console.log(messageBody)
 
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
@@ -130,11 +121,7 @@ cron.schedule(CONFIG.CHECK_INTERVAL, () => {
   checkTickets()
 })
 
-// 定時傳送訊息
-setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${messageBody})`;
-    io.emit('chat_message', statusMsg); 
-}, 10000);
+
 
 http.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
