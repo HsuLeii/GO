@@ -148,8 +148,6 @@ async function checkTickets() {
       })
 
   
-      messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TKURL}`
-  
       // 4. 發送 LINE Push Message
       // console.log(messageBody)
    
