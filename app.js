@@ -49,7 +49,11 @@ const CONFIG = {
 
 // 其餘程式碼...
 app.get('/', (req, res) => {
-    res.send('Server is running!'); // 讓 Render 檢查時有東西可以回傳
+   // 讓 Render 檢查時有東西可以回傳
+    // res.send('Server is running!');
+    
+    // 這行會把同資料夾下的 index.html 傳送到瀏覽器
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 
