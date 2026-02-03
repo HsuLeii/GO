@@ -118,7 +118,7 @@ async function checkTickets() {
       // })
 
       $('article').each(function(index, element) {
-    alert(index);
+    alert("123");
     // or using 'this' keyword:
     // console.log("Index: " + index + ", Content: " + $(this).text());
 });
