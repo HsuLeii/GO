@@ -18,11 +18,12 @@ const io = require('socket.io')(http, {
             "http://localhost:3000",
             "http://127.0.0.1:3000", // 有些電腦 localhost 會轉為 127.0.0.1
             "http://127.0.0.1:5500", // 補上這個（不要加斜線 /）
-            "http://localhost:5500"
         ],
         methods: ["GET", "POST"],
         credentials: true
-    }
+    },
+    allowEIO3: true, // 增加舊版本相容性
+    transports: ['polling', 'websocket'] // 明確指定傳輸方式
 });
 
 
