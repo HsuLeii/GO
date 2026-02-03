@@ -59,103 +59,124 @@ app.get('/', (req, res) => {
 
 // ==================== 主函式 ====================
 
+const puppeteer = require('puppeteer');
+
+// ... CONFIG 部分保持不變
+
 async function checkTickets() {
-  console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
-
-      // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
-      const response = await axios.get(CONFIG.KORURL, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.9",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive",
-          "Upgrade-Insecure-Requests": "1",
-        },
-        timeout: 15000, // 15 秒超時
-      })
-  
-      if (response.status !== 200) {
-        console.error(`網頁請求失敗，狀態碼: ${response.status}`)
-        return
-      }
-  
-      // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
-    const $ = cheerio.load(response.data)
-      const article = $("article")
-      // 3. 構建訊息
-      let messageBody = "有票嗎?"
-  
-      // article.each((index, element) => {
-      //   const articleAllSection = $(element)
-      //   const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
-  
-
-      //   articleContent.each((i, e) => {
-      //     articleContentDetail = $(e)
-      //     // const blockTicket = b.find(".block-ticket")
-      //     const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
-      //     // const ticketButtons = ticketBlocks.find("button.button.button--primary")
-      //     const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
-  
-      //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
-  
-      //     if (ticketButtonsPrimary.length === 0) {
-      //       // console.log("目前沒有可購票項目（無 button--default）");
-      //       ticketMessage = "0308沒有票";
-      //     }else {
-      //       ticketMessage = "搶票了!!!";
-      //     }
-  
-      //     const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
-  
-      //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-      //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-      //     messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
-      //   })
-      // })
-
-      
-
-      $('article').each((index, element) => {
-        const articleAllSection = $(element)
-        const articleContent = articleAllSection.find(".MuiContainer-root")
-  
-        
-        articleContent.each((i, e) => {
-          articleContentDetail = $(e)
-          // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".MuiStack-root")
-          // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
-          const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
-  
-          const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
-  
-          if (ticketButtonsPrimary.length === 0) {
-            // console.log("目前沒有可購票項目（無 button--default）");
-            ticketMessage = "0308沒有票";
-          }else {
-            ticketMessage = "搶票了!!!";
-          }
+    // 1. 抓取網頁 (axios 部分保持不變)
+    const response = await axios.get(CONFIG.KORURL, { /* ... headers ... */ });
     
-          // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-          // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          messageBody += `${ticketMessage}\n⚾ 賽事: \n\n${TKURL}\n\n`
+    if (response.status !== 200) return;
 
-          console.log(messageBody)
-        })
-      })
+    // 2. 使用 Cheerio 解析
+    const $ = cheerio.load(response.data);
+    let messageBody = "";
+
+    // 💡 調整：改抓包含 MuiPaper 類名的 div，這通常是 Tixplus 的卡片容器
+    const ticketCards = $('div[class*="MuiPaper-root"]');
+
+    ticketCards.each((index, element) => {
+        const card = $(element);
+        const cardText = card.text();
+
+        // 💡 關鍵：過濾掉不是票券的區塊 (檢查是否含有日文票數單位「枚」)
+        if (cardText.includes("枚")) {
+            // 尋找按鈕：Tixplus 的購買按鈕通常是內含「購入」或「申請」文字的按鈕
+            // 同時確認該按鈕沒有 disabled 屬性
+            const buyButton = card.find('button:contains("購入"), button:contains("申請"), a:contains("購入")');
+            
+            let ticketStatus = "";
+            if (buyButton.length > 0 && !buyButton.attr('disabled')) {
+                ticketStatus = "🔥 搶票了!!!";
+            } else {
+                ticketStatus = "☁️ 沒有票";
+            }
+
+            // 提取賽事標題 (通常在卡片的特定層級，這裡先抓前 20 字作為範例)
+            const eventInfo = cardText.substring(0, 30).replace(/\s+/g, ' ');
+
+            messageBody += `${ticketStatus}\n⚾ 賽事: ${eventInfo}\n----------------\n`;
+        }
+    });
+
+    if (messageBody) {
+        console.log("--- 偵測報告 ---");
+        console.log(messageBody);
+    } else {
+        // 💡 如果還是抓不到，極高機率是 axios 抓不到 JS 渲染後的內容
+        console.log("❌ 抓取失敗：HTML 內找不到票券資訊，建議改用 Puppeteer。");
+    }
+}
+
+
+
+// async function checkTickets() {
+//   console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
+
+//       // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
+//       const response = await axios.get(CONFIG.KORURL, {
+//         headers: {
+//           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
+//           Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+//           "Accept-Language": "en-US,en;q=0.9",
+//           "Accept-Encoding": "gzip, deflate, br",
+//           Connection: "keep-alive",
+//           "Upgrade-Insecure-Requests": "1",
+//         },
+//         timeout: 15000, // 15 秒超時
+//       })
+  
+//       if (response.status !== 200) {
+//         console.error(`網頁請求失敗，狀態碼: ${response.status}`)
+//         return
+//       }
+  
+//       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
+//     const $ = cheerio.load(response.data)
+//       const article = $("article")
+//       // 3. 構建訊息
+//       let messageBody = "有票嗎?"
+  
+//       // article.each((index, element) => {
+//       //   const articleAllSection = $(element)
+//       //   const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
+  
+
+//       //   articleContent.each((i, e) => {
+//       //     articleContentDetail = $(e)
+//       //     // const blockTicket = b.find(".block-ticket")
+//       //     const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
+//       //     // const ticketButtons = ticketBlocks.find("button.button.button--primary")
+//       //     const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
+  
+//       //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
+  
+//       //     if (ticketButtonsPrimary.length === 0) {
+//       //       // console.log("目前沒有可購票項目（無 button--default）");
+//       //       ticketMessage = "0308沒有票";
+//       //     }else {
+//       //       ticketMessage = "搶票了!!!";
+//       //     }
+  
+//       //     const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
+  
+//       //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+//       //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+//       //     messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
+//       //   })
+//       // })
 
   
-      // 4. 發送 LINE Push Message
-      // console.log(messageBody)
+//       // 4. 發送 LINE Push Message
+//       // console.log(messageBody)
    
-      // 定時傳送訊息
-setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${messageBody})[${new Date().toLocaleString()}]${articleContent} `;
-    io.emit('chat_message', statusMsg); 
-}, 10000);
-}
+//       // 定時傳送訊息
+// setInterval(() => {
+//     const statusMsg = `系統狀態：正常 (${messageBody})[${new Date().toLocaleString()}]${articleContent} `;
+//     io.emit('chat_message', statusMsg); 
+// }, 10000);
+// }
 
 
 // console.log(messageBody)
@@ -163,6 +184,8 @@ setInterval(() => {
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
 // 或使用 cron 定時執行
+
+
 cron.schedule(CONFIG.CHECK_INTERVAL, () => {
   checkTickets()
 })
