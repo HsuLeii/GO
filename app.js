@@ -11,7 +11,7 @@ const io = require('socket.io')(http, {
     cors: {
         origin: [
             "https://hsuleii.github.io", 
-            // "http://localhost:3000",
+            "http://localhost:3000",
             "http://127.0.0.1:5500/"
         ],
         methods: ["GET", "POST"]
@@ -112,7 +112,7 @@ async function checkTickets() {
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
           // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".MuiStack-root.css-1ic5vw3")
+          const ticketBlocks = articleContentDetail.find(".MuiBox-root.css-1ic5vw3")
           // const ticketButtons = ticketBlocks.find("button.button.button--primary")
           // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
