@@ -32,8 +32,6 @@ const axios = require("axios")
 const cheerio = require("cheerio")
 const cron = require("node-cron")
 
-const messageBody = 'Hello!';
-
 // ==================== 設定區 ====================
 const CONFIG = {
   TKURL: "https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087",
