@@ -117,9 +117,7 @@ async function checkTickets() {
       //   })
       // })
 
-      function sayHello() {
-  console.log("Hello, Node.js!");
-}
+      
 
       article.each((index, element) => {
         const articleAllSection = $(element)
@@ -150,7 +148,6 @@ async function checkTickets() {
         })
       })
 
-      sayHello();
   
       messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TKURL}`
   
@@ -164,6 +161,8 @@ setInterval(() => {
 }, 10000);
 }
 
+
+checkTickets()
 
 // console.log(messageBody)
 
