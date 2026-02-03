@@ -117,34 +117,42 @@ async function checkTickets() {
       //   })
       // })
 
-      article.each((index, element) => {
-        const articleAllSection = $(element)
-        const articleContent = articleAllSection.find(".MuiStack-root")
+      const ticketButtons = $(".css-1ic5vw3");
+
+      if (ticketButtons.length === 0) {
+            // console.log("目前沒有可購票項目（無 button--default）");
+            console.log("目前沒有可購票項目");
+          }else {
+            console.log("（無 button--default）");
+          }
+      // article.each((index, element) => {
+      //   const articleAllSection = $(element)
+      //   const articleContent = articleAllSection.find(".MuiStack-root")
   
         
-        articleContent.each((i, e) => {
-          articleContentDetail = $(e)
-          // const blockTicket = b.find(".block-ticket")
-          // const ticketBlocks = articleContentDetail.find(".MuiBox-root.css-1ic5vw3")
-          const ticketButtons = articleContentDetail.find(".MuiBox-root.css-1ic5vw3")
-          // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+      //   articleContent.each((i, e) => {
+      //     articleContentDetail = $(e)
+      //     // const blockTicket = b.find(".block-ticket")
+      //     // const ticketBlocks = articleContentDetail.find(".MuiBox-root.css-1ic5vw3")
+      //     const ticketButtons = articleContentDetail.find(".MuiBox-root.css-1ic5vw3")
+      //     // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
-          const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
+      //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
   
-          if (ticketButtons.length === 0) {
-            // console.log("目前沒有可購票項目（無 button--default）");
-            ticketMessage = "0308沒有票";
-          }else {
-            ticketMessage = "搶票了!!!";
-          }
+      //     if (ticketButtons.length === 0) {
+      //       // console.log("目前沒有可購票項目（無 button--default）");
+      //       ticketMessage = "0308沒有票";
+      //     }else {
+      //       ticketMessage = "搶票了!!!";
+      //     }
     
-          // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-          // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          messageBody += `${ticketMessage}\n⚾ 賽事: \n\n${TKURL}\n\n`
+      //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+      //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+      //     messageBody += `${ticketMessage}\n⚾ 賽事: \n\n${TKURL}\n\n`
 
-          console.log(messageBody)
-        })
-      })
+      //     console.log(messageBody)
+      //   })
+      // })
   
       // messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TKURL}`
   
