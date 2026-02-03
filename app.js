@@ -29,7 +29,11 @@ const messageBody = 'Hello!';
 const CONFIG = {
   TKURL: "https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087",
   TARGET_URL: "https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030081P0030082P0030083P0030084P0030085P0030086P0030087P0030088P0030089P0030090?P6=i00", // eplus 海外站 wbc 售票網址
+  
+  KORURL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526",
+  
   CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
+
 }
 
 
@@ -71,16 +75,46 @@ async function checkTickets() {
       // 3. 構建訊息
       let messageBody = ""
   
-      article.each((index, element) => {
-        const articleAllSection = $(element)
-        const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
+      // article.each((index, element) => {
+      //   const articleAllSection = $(element)
+      //   const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
   
+
+      //   articleContent.each((i, e) => {
+      //     articleContentDetail = $(e)
+      //     // const blockTicket = b.find(".block-ticket")
+      //     const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
+      //     // const ticketButtons = ticketBlocks.find("button.button.button--primary")
+      //     const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
+  
+      //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
+  
+      //     if (ticketButtonsPrimary.length === 0) {
+      //       // console.log("目前沒有可購票項目（無 button--default）");
+      //       ticketMessage = "0308沒有票";
+      //     }else {
+      //       ticketMessage = "搶票了!!!";
+      //     }
+  
+      //     const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
+  
+      //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+      //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+      //     messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
+      //   })
+      // })
+
+      article.each((index, element) => {
+        const articleAllSectionOne = $(element)
+        const articleContent = articleAllSectionOne.find(".MuiStack-root")
+  
+        
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
           // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
+          const ticketBlocks = articleContentDetail.find(".css-4g6ai3")
           // const ticketButtons = ticketBlocks.find("button.button.button--primary")
-          const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
+          const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
           const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
   
@@ -90,12 +124,10 @@ async function checkTickets() {
           }else {
             ticketMessage = "搶票了!!!";
           }
-  
-          const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
-  
+    
           // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
           // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
+          messageBody += `${ticketMessage}\n⚾ 0308賽事: \n\n${TKURL}\n\n`
         })
       })
   
