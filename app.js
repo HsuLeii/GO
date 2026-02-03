@@ -117,7 +117,7 @@ async function checkTickets() {
 
       
 
-      article.each((index, element) => {
+      $('article').each((index, element) => {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
   
@@ -152,7 +152,7 @@ async function checkTickets() {
    
       // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${messageBody})`;
+    const statusMsg = `系統狀態：正常 (${messageBody})[${new Date().toLocaleString()}] `;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 }
