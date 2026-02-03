@@ -117,6 +117,12 @@ async function checkTickets() {
       //   })
       // })
 
+      $('article').each(function(index, element) {
+    alert(index);
+    // or using 'this' keyword:
+    // console.log("Index: " + index + ", Content: " + $(this).text());
+});
+
       article.each((index, element) => {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiStack-root")
