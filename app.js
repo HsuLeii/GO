@@ -105,20 +105,20 @@ async function checkTickets() {
       // })
 
       article.each((index, element) => {
-        const articleAllSectionOne = $(element)
-        const articleContent = articleAllSectionOne.find(".MuiStack-root")
+        const articleAllSection = $(element)
+        const articleContent = articleAllSection.find(".MuiStack-root")
   
         
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
           // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".MuiStack-root")
+          const ticketBlocks = articleContentDetail.find(".MuiStack-root.css-1ic5vw3")
           // const ticketButtons = ticketBlocks.find("button.button.button--primary")
-          const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+          // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
           const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
   
-          if (ticketButtonsPrimary.length === 0) {
+          if (ticketButtons.length === 0) {
             // console.log("目前沒有可購票項目（無 button--default）");
             ticketMessage = "0308沒有票";
           }else {
