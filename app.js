@@ -112,7 +112,7 @@ async function checkTickets() {
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
           // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".css-4g6ai3")
+          const ticketBlocks = articleContentDetail.find(".MuiStack-root")
           // const ticketButtons = ticketBlocks.find("button.button.button--primary")
           const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
