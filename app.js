@@ -6,13 +6,17 @@ const path = require('path');
 // 設定 PORT
 const PORT = process.env.PORT || 3000;
 
+http.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
 // 定義好 http 之後，才能傳給 socket.io
 const io = require('socket.io')(http, {
     cors: {
         origin: [
             "https://hsuleii.github.io", 
             "http://localhost:3000",
-            "http://127.0.0.1:5500/"
+            // "http://127.0.0.1:5500/"
         ],
         methods: ["GET", "POST"]
     }
@@ -152,9 +156,3 @@ setInterval(() => {
 cron.schedule(CONFIG.CHECK_INTERVAL, () => {
   checkTickets()
 })
-
-
-
-http.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
