@@ -49,7 +49,7 @@ const CONFIG = {
 
 // 其餘程式碼...
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+    res.send('Server is running!'); // 讓 Render 檢查時有東西可以回傳
 });
 
 
