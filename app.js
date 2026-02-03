@@ -40,7 +40,7 @@ const CONFIG = {
   
   KORURL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526",
   
-  CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
+  CHECK_INTERVAL: "*/5 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
 
 }
 
