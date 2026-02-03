@@ -23,7 +23,7 @@ const io = require('socket.io')(http, {
         credentials: true
     },
     allowEIO3: true, // 增加舊版本相容性
-    transports: ['polling', 'websocket'] // 明確指定傳輸方式
+    transports: ["websocket", "polling"] // 明確指定傳輸方式
 });
 
 
