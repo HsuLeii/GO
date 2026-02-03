@@ -131,7 +131,7 @@ async function checkTickets() {
         })
       })
   
-      messageBody += `\n\n🔗 購票連結:\n${CONFIG.TARGET_URL}`
+      // messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TARGET_URL}`
   
       // 4. 發送 LINE Push Message
       console.log(messageBody)
