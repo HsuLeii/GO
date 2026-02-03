@@ -86,7 +86,7 @@ async function checkTickets() {
     const $ = cheerio.load(response.data)
       const article = $("article")
       // 3. 構建訊息
-      let messageBody = ""
+      let messageBody = "有票嗎?"
   
       // article.each((index, element) => {
       //   const articleAllSection = $(element)
