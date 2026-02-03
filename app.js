@@ -162,8 +162,6 @@ setInterval(() => {
 }
 
 
-checkTickets()
-
 // console.log(messageBody)
 
 // ==================== 啟動 ====================
