@@ -61,53 +61,54 @@ app.get('/', (req, res) => {
 
 const puppeteer = require('puppeteer');
 
-// ... CONFIG 部分保持不變
-
 async function checkTickets() {
-    // 1. 抓取網頁 (axios 部分保持不變)
-    const response = await axios.get(CONFIG.KORURL, { /* ... headers ... */ });
-    
-    if (response.status !== 200) return;
+  // 1. 啟動瀏覽器
+  const browser = await puppeteer.launch({ 
+    headless: "new" // 或設為 false 觀察它自動操作的過程
+  });
+  
+  const page = await browser.newPage();
 
-    // 2. 使用 Cheerio 解析
-    const $ = cheerio.load(response.data);
-    let messageBody = "";
-
-    // 💡 調整：改抓包含 MuiPaper 類名的 div，這通常是 Tixplus 的卡片容器
-    const ticketCards = $('div[class*="MuiPaper-root"]');
-
-    ticketCards.each((index, element) => {
-        const card = $(element);
-        const cardText = card.text();
-
-        // 💡 關鍵：過濾掉不是票券的區塊 (檢查是否含有日文票數單位「枚」)
-        if (cardText.includes("枚")) {
-            // 尋找按鈕：Tixplus 的購買按鈕通常是內含「購入」或「申請」文字的按鈕
-            // 同時確認該按鈕沒有 disabled 屬性
-            const buyButton = card.find('button:contains("購入"), button:contains("申請"), a:contains("購入")');
-            
-            let ticketStatus = "";
-            if (buyButton.length > 0 && !buyButton.attr('disabled')) {
-                ticketStatus = "🔥 搶票了!!!";
-            } else {
-                ticketStatus = "☁️ 沒有票";
-            }
-
-            // 提取賽事標題 (通常在卡片的特定層級，這裡先抓前 20 字作為範例)
-            const eventInfo = cardText.substring(0, 30).replace(/\s+/g, ' ');
-
-            messageBody += `${ticketStatus}\n⚾ 賽事: ${eventInfo}\n----------------\n`;
-        }
+  try {
+    // 2. 前往網址並等待網路空閒
+    await page.goto("https://tradead.tixplus.jp", {
+      waitUntil: 'networkidle2',
+      timeout: 30000
     });
 
-    if (messageBody) {
-        console.log("--- 偵測報告 ---");
-        console.log(messageBody);
+    // 3. 在瀏覽器環境內執行邏輯 (這是在瀏覽器裡面跑的)
+    const tickets = await page.evaluate(() => {
+      // 抓取所有 Material UI 的 Paper 卡片
+      const cards = Array.from(document.querySelectorAll('[class*="MuiPaper-root"]'));
+      
+      return cards
+        .filter(card => card.innerText.includes('枚')) // 只留有票數資訊的
+        .map(card => {
+          const btn = card.querySelector('button');
+          const isAvailable = btn && !btn.disabled && (btn.innerText.includes('購入') || btn.innerText.includes('申請'));
+          return {
+            status: isAvailable ? "🔥 搶票了!!!" : "☁️ 沒有票",
+            info: card.innerText.split('\n')[0] // 抓第一行標題
+          };
+        });
+    });
+
+    // 4. 印出結果
+    if (tickets.length === 0) {
+        console.log("目前頁面上沒有任何掛牌票券。");
     } else {
-        // 💡 如果還是抓不到，極高機率是 axios 抓不到 JS 渲染後的內容
-        console.log("❌ 抓取失敗：HTML 內找不到票券資訊，建議改用 Puppeteer。");
+        tickets.forEach(t => console.log(`${t.status} ⚾ ${t.info}`));
     }
+
+  } catch (error) {
+    console.error("抓取過程中發生錯誤:", error);
+  } finally {
+    await browser.close();
+  }
 }
+
+checkTickets();
+
 
 
 
