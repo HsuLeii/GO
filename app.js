@@ -6,6 +6,7 @@ const path = require('path');
 // 設定 PORT
 const PORT = process.env.PORT || 3000;
 
+// 監聽時一定要有 '0.0.0.0'
 http.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
