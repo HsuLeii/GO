@@ -117,11 +117,9 @@ async function checkTickets() {
       //   })
       // })
 
-      $('article').each(function(index, element) {
-    alert("123");
-    // or using 'this' keyword:
-    // console.log("Index: " + index + ", Content: " + $(this).text());
-});
+      function sayHello() {
+  console.log("Hello, Node.js!");
+}
 
       article.each((index, element) => {
         const articleAllSection = $(element)
@@ -151,6 +149,8 @@ async function checkTickets() {
           console.log(messageBody)
         })
       })
+
+      sayHello();
   
       messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TKURL}`
   
