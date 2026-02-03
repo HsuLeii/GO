@@ -131,7 +131,7 @@ async function checkTickets() {
         })
       })
   
-      messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TARGET_URL}`
+      messageBody += `${ticketMessage}\n\n🔗 購票連結:\n${CONFIG.TKURL}`
   
       // 4. 發送 LINE Push Message
       console.log(messageBody)
@@ -144,7 +144,7 @@ setInterval(() => {
 }
 
 
-console.log(messageBody)
+// console.log(messageBody)
 
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
