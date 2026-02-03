@@ -38,6 +38,7 @@ const CONFIG = {
   TARGET_URL: "https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030081P0030082P0030083P0030084P0030085P0030086P0030087P0030088P0030089P0030090?P6=i00", // eplus 海外站 wbc 售票網址
   
   KORURL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526",
+  ticketMessage:"",
   
   CHECK_INTERVAL: "*/3 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
 
