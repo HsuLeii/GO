@@ -16,9 +16,12 @@ const io = require('socket.io')(http, {
         origin: [
             "https://hsuleii.github.io", 
             "http://localhost:3000",
-            // "http://127.0.0.1:5500/"
+            "http://127.0.0.1:3000", // 有些電腦 localhost 會轉為 127.0.0.1
+            "http://127.0.0.1:5500", // 補上這個（不要加斜線 /）
+            "http://localhost:5500"
         ],
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
