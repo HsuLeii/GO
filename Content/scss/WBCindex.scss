@@ -1,7 +1,5 @@
 @charset "UTF-8";
-
-@import "base/lang";
-// @import "base/color";
-// @import "base/reset";
-
-@import "pages/index";
+@use "base/lang";
+@use "base/color";
+@use "base/reset";
+@use "pages/index";

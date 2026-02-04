@@ -1,4 +1,8 @@
 .messages_area{
     width: 90vw;
     height: 90vh;
+
+    .messages_area_send{
+        display: none;
+    }
 }

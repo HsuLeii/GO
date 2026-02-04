@@ -1,3 +1,5 @@
+@use "color" as c;
+
 body,
 div,
 dl,
@@ -111,13 +113,13 @@ button {
 }
 
 button:disabled {
-    background-color: $grey !important;
-    border: 1px solid $grey !important;
+    background-color: c.$grey !important;
+    border: 1px solid c.$grey !important;
     opacity: 0.5;
     cursor: auto !important;
 
     a {
-        color: $white !important;
+        color: c.$white !important;
         cursor: auto;
     }
 }
@@ -129,7 +131,7 @@ body {
 }
 
 body {
-    background-color: $body_bg;
+    background-color: c.$body_bg;
 }
 
 
@@ -166,8 +168,8 @@ body {
 }
 
 ::selection {
-    background: $main-color;
-    color: $white;
+    background: c.$main-color;
+    color: c.$white;
 }
 
 @media screen and (min-width: 576px) {}
