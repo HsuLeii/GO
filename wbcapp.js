@@ -34,7 +34,8 @@ const cron = require("node-cron")
 
 // ==================== 設定區 ====================
 const CONFIG = {
-  TARGET_URL: "https://tradead.tixplus.jp/wbc2026", // tixplus 售票網址
+//   TARGET_URL: "https://tradead.tixplus.jp/wbc2026", // tixplus 售票網址
+TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // tixplus 售票網址
   CHECK_INTERVAL: "*/3 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
   NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
@@ -76,6 +77,8 @@ async function checkTicketsAndNotify() {
     const jsonString = decodeURIComponent(encodedData)
     const data = JSON.parse(jsonString)
 
+    
+
     //   console.log("解碼後的資料:", JSON.stringify(data, null, 2)) // 偵錯用，第一次執行建議打開看結構
 
     // 4. 解析需要的資訊 (這裡需要根據實際 JSON 結構調整)
@@ -91,12 +94,14 @@ async function checkTicketsAndNotify() {
       return
     }
 
+    console.log(extractTicketInfo(data))
+
     // 5. 製作 LINE 訊息內容
     const messageText = formatLineMessage(ticketInfoList)
     console.log(messageText)
 
     // 6. 發送訊息
-    sendLineMessage(messageText)
+    // sendLineMessage(messageText)
   } catch (error) {
     console.error("發生錯誤:", error.message)
   }
@@ -111,15 +116,18 @@ function extractTicketInfo(jsonData) {
   // 例如：可能是 jsonData.props.events 或 jsonData.componentProps.items
 
   // 模擬抓取邏輯 (範例)
-  const items = jsonData?.props?.concerts || []
+const items = jsonData?.props?.concerts || []
+
+const targetId = 1518; // 你想找的 ID
+
 
   items.forEach((item) => {
-    if (item.listings_count >= CONFIG.NUMBER_OF_REMINDERS) {
+    if (item.id === targetId) {
       results.push({
         name: item.name || "未知賽事",
         date: item.concert_date || "未知日期",
         //  status: item.status || "銷售中", // 例如：有無票券
-        listings_count: item.listings_count || "詳見官網",
+        listings_count: item.listings_count,
       })
     }
   })
@@ -133,35 +141,53 @@ function extractTicketInfo(jsonData) {
 }
 
 
-async function sendLineMessage(text) {
-  const url = "https://api.line.me/v2/bot/message/push"
+// async function sendLineMessage(text) {
+//   const url = "https://api.line.me/v2/bot/message/push"
 
-  const payload = {
-    to: CONFIG.USER_ID,
-    messages: [
-      {
-        type: "text",
-        text: text,
-      },
-    ],
-  }
+//   const payload = {
+//     to: CONFIG.USER_ID,
+//     messages: [
+//       {
+//         type: "text",
+//         text: text,
+//       },
+//     ],
+//   }
 
-  try {
-    const response = await axios.post(url, payload, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${CONFIG.CHANNEL_ACCESS_TOKEN}`,
-      },
-    })
+//   try {
+//     const response = await axios.post(url, payload, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${CONFIG.CHANNEL_ACCESS_TOKEN}`,
+//       },
+//     })
 
-    if (response.status === 200) {
-      console.log("LINE 通知發送成功")
-    } else {
-      console.error("LINE 發送失敗:", response.data)
-    }
-  } catch (error) {
-    console.error("LINE 發送錯誤:", error.response?.data || error.message)
-  }
+//     if (response.status === 200) {
+//       console.log("LINE 通知發送成功")
+//     } else {
+//       console.error("LINE 發送失敗:", response.data)
+//     }
+//   } catch (error) {
+//     console.error("LINE 發送錯誤:", error.response?.data || error.message)
+//   }
+// }
+
+// 輔助函式：排版 LINE 訊息
+
+function formatLineMessage(ticketList) {
+  let content = `⚾ TIXPLUS 2026WBC 票務快訊 ⚾\n\n`
+
+  ticketList.forEach((ticket) => {
+    content += `🏟 ${ticket.name}\n`
+    content += `📅 賽事日期：: ${ticket.date}\n`
+    content += `💰 刊登數: ${ticket.listings_count}\n`
+    //   content += `📊 狀態: ${ticket.status}\n`
+    content += `------------------\n`
+  })
+
+  content += `\n🔗 立即查看:\n${CONFIG.TARGET_URL}`
+
+  return content
 }
 
 // // 執行
