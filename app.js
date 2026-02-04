@@ -88,6 +88,12 @@ async function checkTickets() {
       let messageBody = "有票嗎?"
       let ticketMessage = "沒有票";
 
+      console.log(messageBody)
+
+      if (articles.length === 0) {
+        console.log("❌ 畫面上找不到任何 <article>，請確認是否已載入完成");
+        return;
+    }
   
       // article.each((index, element) => {
       //   const articleAllSection = $(element)
@@ -133,7 +139,7 @@ async function checkTickets() {
     
           // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
           // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
+          messageBody += `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
 
           console.log(messageBody)
   
@@ -159,6 +165,7 @@ async function checkTickets() {
         //   console.log(messageBody)
         // })
       })
+
 
   
       // 4. 發送 LINE Push Message
