@@ -1,8 +1,35 @@
-.messages_area{
-    width: 90vw;
-    height: 90vh;
+@use "sass:color"; // 👈 必須加這行，這告訴 Sass 你要用內建的顏色工具
+@use "../base/color"as c;
 
-    .messages_area_send{
+.messages_area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ul {
+        padding: 15px;
+        border: 1px solid c.$main_color_orange;
+        width: 95vw;
+        height: 95vh;
+        overflow-y: scroll;
+
+        li {
+            margin: 0 0 10px;
+            padding: 5px;
+
+            &:nth-child(odd) {
+                background-color: color.scale(c.$main_color_blue, $lightness: 50%);
+            }
+
+            &:nth-child(even) {
+                background-color: color.scale(c.$main_color_orange, $lightness: 40%);
+            }
+        }
+    }
+
+    .messages_area_send {
         display: none;
     }
 }

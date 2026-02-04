@@ -122,7 +122,7 @@ async function checkTicketsAndNotify() {
     // sendLineMessage(messageText)
 
     setInterval(() => {
-    const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
+    const statusMsg = `${messageText}`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
@@ -199,16 +199,15 @@ const targetId = 1518; // 你想找的 ID
 // 輔助函式：排版 LINE 訊息
 
 function formatLineMessage(ticketList) {
-  let content = `⚾ TIXPLUS 2026WBC 票務快訊 ⚾<br>`
+  let content = ``
 
   ticketList.forEach((ticket) => {
-        content += `💰 刊登數: ${ticket.listings_count}<br>`
-    content += `🏟 ${ticket.name}<br>`
-    content += `📅 賽事日期：: ${ticket.date}<br>`
+    content += `刊登數: ${ticket.listings_count}<br>`
+    content += `日期：: ${ticket.date}<br>`
     //   content += `📊 狀態: ${ticket.status}\n`
   })
 
-  content += `\n🔗 立即查看:\n${CONFIG.TARGET_URL}`
+  content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>更新時間：${now}`
 
   return content
 }
