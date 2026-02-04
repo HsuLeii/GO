@@ -159,7 +159,7 @@ setInterval(() => {
 }
 
 
-console.log(messageBody)
+// console.log(messageBody)
 
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
