@@ -22,8 +22,13 @@
         // 監聽伺服器傳來的訊息
         socket.on('chat_message', (msg) => {
             const item = document.createElement('li');
-            item.textContent = msg;
-            document.getElementById('messages').appendChild(item);
+            if (msg.includes('https://')) {
+        // 使用模板字串將網址包進 <a> 標籤中
+        // 假設你的 msg 內容就是那個網址，或者包含那個網址
+        item.innerHTML = `<a href="${msg}" target="_blank">點此進入：${msg}</a>`;
+    } else {
+        item.textContent = msg;
+    }
             // 自動捲動到底部
             const msgBox = document.getElementById('messages');
             msgBox.scrollTop = msgBox.scrollHeight;

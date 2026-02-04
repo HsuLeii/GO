@@ -110,7 +110,7 @@ async function checkTicketsAndNotify() {
     // sendLineMessage(messageText)
 
     setInterval(() => {
-    const statusMsg = `系統狀態：正常${messageText}[${new Date().toLocaleString()}]`;
+    const statusMsg = `${messageText}[${new Date().toLocaleString()}]`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
@@ -190,9 +190,9 @@ function formatLineMessage(ticketList) {
   let content = `⚾ TIXPLUS 2026WBC 票務快訊 ⚾\n\n`
 
   ticketList.forEach((ticket) => {
+        content += `💰 刊登數: ${ticket.listings_count}\n`
     content += `🏟 ${ticket.name}\n`
     content += `📅 賽事日期：: ${ticket.date}\n`
-    content += `💰 刊登數: ${ticket.listings_count}\n`
     //   content += `📊 狀態: ${ticket.status}\n`
     content += `------------------\n`
   })
