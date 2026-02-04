@@ -27,6 +27,14 @@ const io = require('socket.io')(http, {
     transports: ["websocket", "polling"] // 明確指定傳輸方式
 });
 
+// 其餘程式碼...
+app.get('/', (req, res) => {
+   // 讓 Render 檢查時有東西可以回傳
+    // res.send('Server is running!');
+
+    // 這行會把同資料夾下的 index.html 傳送到瀏覽器
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const axios = require("axios")
 const cheerio = require("cheerio")
@@ -94,14 +102,18 @@ async function checkTicketsAndNotify() {
       return
     }
 
-    console.log(extractTicketInfo(data))
-
     // 5. 製作 LINE 訊息內容
     const messageText = formatLineMessage(ticketInfoList)
     console.log(messageText)
 
     // 6. 發送訊息
     // sendLineMessage(messageText)
+
+    setInterval(() => {
+    const statusMsg = `系統狀態：正常${messageText}[${new Date().toLocaleString()}]`;
+    io.emit('chat_message', statusMsg); 
+}, 10000);
+
   } catch (error) {
     console.error("發生錯誤:", error.message)
   }
@@ -193,11 +205,18 @@ function formatLineMessage(ticketList) {
 // // 執行
 // checkTicketsAndNotify()
 
+      // 定時傳送訊息
+
+
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
 // 或使用 cron 定時執行
 // cron.schedule(CONFIG.CHECK_INTERVAL, () => {
-checkTicketsAndNotify()
+
+
+cron.schedule(CONFIG.CHECK_INTERVAL, () => {
+  checkTicketsAndNotify()
+})
 // })
 
 // 如果不要定時執行，可直接寫 checkTicketsAndNotify()
