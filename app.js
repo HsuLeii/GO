@@ -86,6 +86,8 @@ async function checkTickets() {
       const article = $("div")
       // 3. 構建訊息
       let messageBody = "有票嗎?"
+              let ticketMessage = "沒有票";
+
   
       // article.each((index, element) => {
       //   const articleAllSection = $(element)
@@ -122,7 +124,6 @@ async function checkTickets() {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
   
-        ticketMessage = "沒有票";
         
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
