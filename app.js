@@ -64,7 +64,7 @@ async function checkTickets() {
   console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
 
       // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
-      const response = await axios.get(CONFIG.TKURL, {
+      const response = await axios.get(CONFIG.KORURL, {
         headers: {
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
           Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -118,7 +118,7 @@ async function checkTickets() {
 
       
 
-      article.each((index, element) => {
+      $('div').each(function(index, element) {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
   
@@ -157,7 +157,7 @@ setInterval(() => {
 }
 
 
-// console.log(messageBody)
+console.log(messageBody)
 
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
