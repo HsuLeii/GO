@@ -21,6 +21,7 @@
 
             a{
                 color: c.$brown;
+                word-break: break-all;
             }
 
             &:nth-child(odd) {

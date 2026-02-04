@@ -308,6 +308,7 @@ body {
 }
 .messages_area ul li a {
   color: #634218;
+  word-break: break-all;
 }
 .messages_area ul li:nth-child(odd) {
   background-color: rgb(162.9901639344, 213.137704918, 240.6098360656);
