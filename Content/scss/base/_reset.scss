@@ -1,0 +1,319 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+figure {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+h1 {
+    font-size: 25px;
+    line-height: 1.7;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 26px;
+    line-height: 1.7;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+p,
+svg {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+span,
+th,
+td,
+.form-control {
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 1.7;
+}
+
+a {
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 1.7;
+
+    &:hover{
+        text-decoration: none;
+    }
+}
+
+ruby {
+    letter-spacing: 1.8px;
+    line-height: 3;
+}
+
+rt {
+    transform: translateY(-35%);
+}
+
+input,
+label {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+input[type=file]::file-selector-button {
+    display: none;
+}
+
+img {
+    width: 100%;
+}
+
+button {
+    padding: 0;
+    border-width: 0px;
+    border-style: none;
+    background-color: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: $grey !important;
+    border: 1px solid $grey !important;
+    opacity: 0.5;
+    cursor: auto !important;
+
+    a {
+        color: $white !important;
+        cursor: auto;
+    }
+}
+
+*,
+body {
+    letter-spacing: 1.5px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $body_bg;
+}
+
+
+.cursor {
+    cursor: pointer;
+}
+
+.icon::before {
+    display: none;
+}
+
+.icon-solid::before {
+    font: var(--fa-font-solid);
+}
+
+.icon-regular::before {
+    font: var(--fa-font-regular);
+}
+
+.icon-light::before {
+    font: var(--fa-font-light);
+}
+
+.icon-duotone::before {
+    font: var(--fa-font-duotone);
+}
+
+.icon-brands::before {
+    font: var(--fa-font-brands);
+}
+
+.text_center {
+    text-align: center;
+}
+
+::selection {
+    background: $main-color;
+    color: $white;
+}
+
+@media screen and (min-width: 576px) {}
+
+@media screen and (min-width: 768px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    h3 {
+        font-size: 27px;
+    }
+
+    h4 {
+        font-size: 21px;
+    }
+
+    h5{
+        font-size: 19px;
+    }
+
+    p,
+svg {
+        font-size: 15px;
+    }
+
+    span,
+    th,
+    td,
+    .form-control {
+        font-size: 15px;
+    }
+
+    a {
+        font-size: 15px;
+    }
+
+    input,
+    label {
+        font-size: 15px;
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+    h1 {
+        font-size: 35px;
+    }
+
+    h3 {
+        font-size: 29px;
+    }
+
+    h4 {
+        font-size: 23px;
+    }
+
+    h5{
+        font-size: 21px;
+    }
+
+    p,
+svg {
+        font-size: 17px;
+    }
+
+    span,
+    th,
+    td,
+    .form-control {
+        font-size: 17px;
+    }
+
+    a {
+        font-size: 17px;
+    }
+
+    input,
+    label {
+        font-size: 17px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    h5{
+        font-size: 23px;
+    }
+
+    p,
+svg {
+        font-size: 19px;
+    }
+
+    span,
+    th,
+    td,
+    .form-control {
+        font-size: 19px;
+    }
+
+    a {
+        font-size: 19px;
+    }
+
+    input,
+    label {
+        font-size: 19px;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    h1 {
+        font-size: 40px;
+    }
+
+    h3 {
+        font-size: 33px;
+    }
+
+    h4 {
+        font-size: 27px;
+    }
+
+    h5{
+        font-size: 24px;
+    }
+
+    p,
+svg {
+        font-size: 20px;
+    }
+
+    span,
+    th,
+    td,
+    .form-control {
+        font-size: 20px;
+    }
+
+    a {
+        font-size: 20px;
+    }
+
+    input,
+    label {
+        font-size: 20px;
+    }
+}
