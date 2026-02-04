@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Socket.io 聊天室</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        #messages { list-style-type: none; margin: 0; padding: 0; border: 1px solid #ddd; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
-        #messages li { padding: 8px; border-bottom: 1px solid #eee; }
-        input { padding: 10px; width: 70%; }
-        button { padding: 10px; cursor: pointer; }
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            border: 1px solid #ddd;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        #messages li {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+        }
+
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
     <h2>實時聊天室123</h2>
     <ul id="messages"></ul>
@@ -21,16 +47,16 @@
 
         // 監聽伺服器傳來的訊息
         function urlify(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, function(url) {
-        return `<a href="${url}" target="_blank">${url}</a>`;
-    });
-}
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function (url) {
+                return `<a href="${url}" target="_blank">${url}</a>`;
+            });
+        }
 
         socket.on('chat_message', (msg) => {
             const item = document.createElement('li');
-    item.innerHTML = urlify(msg); // 自動轉換訊息中的所有網址
-    document.getElementById('messages').appendChild(item);
+            item.innerHTML = urlify(msg); // 自動轉換訊息中的所有網址
+            document.getElementById('messages').appendChild(item);
             // 自動捲動到底部
             const msgBox = document.getElementById('messages');
             msgBox.scrollTop = msgBox.scrollHeight;
@@ -51,4 +77,5 @@
         });
     </script>
 </body>
+
 </html>
