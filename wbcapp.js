@@ -208,7 +208,31 @@ function formatLineMessage(ticketList) {
 
 // 6. 發送訊息
     // sendLineMessage(messageText)
+setInterval(() => {
 
+    // 假設你在這裡抓取到了最新的 ticketList
+
+    ticketList.forEach((ticket) => {
+
+        
+
+        // 加入條件判斷：只有刊登數為 0 時才執行發送
+
+        if (ticket.listings_count === 0) {
+
+            const now = new Date().toLocaleString('zh-TW', {
+                timeZone: 'Asia/Taipei',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+
+            const statusMsg = `⚠️ 目前無刊登：${ticket.name}<br>時間：${now}`;
+        }
+
+    });
+
+}, 10000);
 
     
 
