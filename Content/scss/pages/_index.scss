@@ -19,20 +19,16 @@
             margin: 0 0 10px;
             padding: 5px;
 
+            a{
+                color: c.$brown;
+            }
+
             &:nth-child(odd) {
                 background-color: color.scale(c.$main_color_blue, $lightness: 60%);
-
-                a{
-                    color: c.$main_color_blue;
-                }
             }
 
             &:nth-child(even) {
                 background-color: color.scale(c.$main_color_orange, $lightness: 50%);
-
-                a{
-                    color: c.$main_color_orange;
-                }
             }
         }
     }

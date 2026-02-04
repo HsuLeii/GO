@@ -122,7 +122,7 @@ async function checkTicketsAndNotify() {
     // sendLineMessage(messageText)
 
     setInterval(() => {
-    const statusMsg = `${messageText}`;
+    const statusMsg = `${messageText}<br>更新時間：${now}`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
@@ -207,7 +207,7 @@ function formatLineMessage(ticketList) {
     //   content += `📊 狀態: ${ticket.status}\n`
   })
 
-  content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>更新時間：${now}`
+  content += `\n立即查看:\n${CONFIG.TARGET_URL}`
 
   return content
 }
