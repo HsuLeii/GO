@@ -59,124 +59,131 @@ app.get('/', (req, res) => {
 
 // ==================== 主函式 ====================
 
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
 
-async function checkTickets() {
-  console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
+// Call the function directly within the file
+greet('Node.js User');
 
-      // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
-      const response = await axios.get(CONFIG.KORURL, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.9",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive",
-          "Upgrade-Insecure-Requests": "1",
-        },
-        timeout: 15000, // 15 秒超時
-      })
-  
-      if (response.status !== 200) {
-        console.error(`網頁請求失敗，狀態碼: ${response.status}`)
-        return
-      }
-  
-      // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
-    const $ = cheerio.load(response.data)
-      const article = $("div")
-      // 3. 構建訊息
-      let messageBody = "有票嗎?"
-      let ticketMessage = "沒有票";
 
-      console.log(messageBody)
+// async function checkTickets() {
+//   console.log(`[${new Date().toLocaleString()}] 開始檢查門票...`)
 
-      if (articles.length === 0) {
-        console.log("❌ 畫面上找不到任何 <article>，請確認是否已載入完成");
-        return;
-    }
+//       // 1. 抓取網頁（模擬瀏覽器 User-Agent，避免被簡單阻擋）
+//       const response = await axios.get(CONFIG.KORURL, {
+//         headers: {
+//           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0 Herring/90.1.1640.8",
+//           Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+//           "Accept-Language": "en-US,en;q=0.9",
+//           "Accept-Encoding": "gzip, deflate, br",
+//           Connection: "keep-alive",
+//           "Upgrade-Insecure-Requests": "1",
+//         },
+//         timeout: 15000, // 15 秒超時
+//       })
   
-      // article.each((index, element) => {
-      //   const articleAllSection = $(element)
-      //   const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
+//       if (response.status !== 200) {
+//         console.error(`網頁請求失敗，狀態碼: ${response.status}`)
+//         return
+//       }
+  
+//       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
+//     const $ = cheerio.load(response.data)
+//       const article = $("div")
+//       // 3. 構建訊息
+//       let messageBody = "有票嗎?"
+//       let ticketMessage = "沒有票";
+
+//       console.log(messageBody)
+
+//       if (articles.length === 0) {
+//         console.log("❌ 畫面上找不到任何 <article>，請確認是否已載入完成");
+//         return;
+//     }
+  
+//       // article.each((index, element) => {
+//       //   const articleAllSection = $(element)
+//       //   const articleContent = articleAllSection.find(".20260308 > .block-ticket-article__content")
   
 
-      //   articleContent.each((i, e) => {
-      //     articleContentDetail = $(e)
-      //     // const blockTicket = b.find(".block-ticket")
-      //     const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
-      //     // const ticketButtons = ticketBlocks.find("button.button.button--primary")
-      //     const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
+//       //   articleContent.each((i, e) => {
+//       //     articleContentDetail = $(e)
+//       //     // const blockTicket = b.find(".block-ticket")
+//       //     const ticketBlocks = articleContentDetail.find(".block-ticket:not(.hidden)")
+//       //     // const ticketButtons = ticketBlocks.find("button.button.button--primary")
+//       //     const ticketButtonsPrimary = ticketBlocks.find("button.button.button--primary")
   
-      //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
+//       //     const TKURL =  new URL('https://eplus.tickets/en/sf/ibt/detail/0260360001-P0030087');
   
-      //     if (ticketButtonsPrimary.length === 0) {
-      //       // console.log("目前沒有可購票項目（無 button--default）");
-      //       ticketMessage = "0308沒有票";
-      //     }else {
-      //       ticketMessage = "搶票了!!!";
-      //     }
+//       //     if (ticketButtonsPrimary.length === 0) {
+//       //       // console.log("目前沒有可購票項目（無 button--default）");
+//       //       ticketMessage = "0308沒有票";
+//       //     }else {
+//       //       ticketMessage = "搶票了!!!";
+//       //     }
   
-      //     const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
+//       //     const articleTitle = articleAllSection.find(".block-ticket-article__title").text().trim() || "未知賽事"
   
-      //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-      //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-      //     messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
-      //   })
-      // })
+//       //     // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+//       //     // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+//       //     messageBody += `${ticketMessage}\n⚾ 0308賽事: ${articleTitle}\n\n${TKURL}\n\n`
+//       //   })
+//       // })
 
       
 
-      article.each(function(index, element) {
-        const articleAllSection = $(element)
-        const articleContent = articleAllSection.find(".MuiContainer-root")
+//       article.each(function(index, element) {
+//         const articleAllSection = $(element)
+//         const articleContent = articleAllSection.find(".MuiContainer-root")
 
-        if (articleContent.length === 0) {
-            // console.log("目前沒有可購票項目（無 button--default）");
-            ticketMessage = "沒有票";
-          }else {
-            ticketMessage = "搶票了!!!";
-          }
+//         if (articleContent.length === 0) {
+//             // console.log("目前沒有可購票項目（無 button--default）");
+//             ticketMessage = "沒有票";
+//           }else {
+//             ticketMessage = "搶票了!!!";
+//           }
     
-          // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-          // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          messageBody += `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
+//           // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+//           // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+//           messageBody += `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
 
-          console.log(messageBody)
+//           console.log(messageBody)
   
         
-        // articleContent.each((i, e) => {
-        //   articleContentDetail = $(e)
-        //   // const blockTicket = b.find(".block-ticket")
-        //   const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
-        //   // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
-        //   // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+//         // articleContent.each((i, e) => {
+//         //   articleContentDetail = $(e)
+//         //   // const blockTicket = b.find(".block-ticket")
+//         //   const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
+//         //   // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
+//         //   // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
-        //   if (articleContent.length === 0) {
-        //     // console.log("目前沒有可購票項目（無 button--default）");
-        //     ticketMessage = "沒有票";
-        //   }else {
-        //     ticketMessage = "搶票了!!!";
-        //   }
+//         //   if (articleContent.length === 0) {
+//         //     // console.log("目前沒有可購票項目（無 button--default）");
+//         //     ticketMessage = "沒有票";
+//         //   }else {
+//         //     ticketMessage = "搶票了!!!";
+//         //   }
     
-        //   // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
-        //   // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-        //   let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
+//         //   // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+//         //   // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+//         //   let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
 
-        //   console.log(messageBody)
-        // })
-      })
+//         //   console.log(messageBody)
+//         // })
+//       })
 
 
   
-      // 4. 發送 LINE Push Message
-      // console.log(messageBody)
+//       // 4. 發送 LINE Push Message
+//       // console.log(messageBody)
    
-      // 定時傳送訊息
-setInterval(() => {
-    const statusMsg = `系統狀態：正常${ticketMessage} (${messageBody})[${new Date().toLocaleString()}]`;
-    io.emit('chat_message', statusMsg); 
-}, 10000);
-}
+//       // 定時傳送訊息
+// setInterval(() => {
+//     const statusMsg = `系統狀態：正常${ticketMessage} (${messageBody})[${new Date().toLocaleString()}]`;
+//     io.emit('chat_message', statusMsg); 
+// }, 10000);
+// }
 
 
 // console.log(messageBody)
@@ -184,6 +191,9 @@ setInterval(() => {
 // ==================== 啟動 ====================
 // 手動執行一次：node your_script.js
 // 或使用 cron 定時執行
+
+
+
 cron.schedule(CONFIG.CHECK_INTERVAL, () => {
   checkTickets()
 })
