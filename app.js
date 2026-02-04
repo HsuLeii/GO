@@ -83,14 +83,43 @@ async function checkTickets() {
   
       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
     const $ = cheerio.load(response.data)
+    const article = $("div")
       // 3. 構建訊息
       let messageBody = "有票嗎?"
-      let ticketMessage = "沒有票";
+      let ticketMessage = "123";
 
       console.log(messageBody)
 
-  
+      article.each((index, element) => {
+        const articleAllSection = $(element)
+        const articleContent = articleAllSection.find(".MuiContainer-root")
 
+        if (articleContent.length === 0) {
+            // console.log("目前沒有可購票項目（無 button--default）");
+            ticketMessage = "沒有票";
+          }else {
+            ticketMessage = "搶票了!!!";
+          }
+        
+        // articleContent.each((i, e) => {
+        //   articleContentDetail = $(e)
+        //   // const blockTicket = b.find(".block-ticket")
+        //   // const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
+        //   // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
+        //   // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+  
+        //   if (articleContent.length === 0) {
+        //     // console.log("目前沒有可購票項目（無 button--default）");
+        //     ticketMessage = "沒有票";
+        //   }else {
+        //     ticketMessage = "搶票了!!!";
+        //   }
+    
+        //   // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+        //   // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+        // })
+      })
+console.log(ticketMessage);
     console.log("❌ 畫面上找不到任何 ");
       // article.each((index, element) => {
       //   const articleAllSection = $(element)
