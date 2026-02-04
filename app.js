@@ -123,16 +123,8 @@ async function checkTickets() {
       $('div').each(function(index, element) {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
-  
-        
-        articleContent.each((i, e) => {
-          articleContentDetail = $(e)
-          // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
-          // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
-          // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
-  
-          if (articleContent.length === 0) {
+
+        if (articleContent.length === 0) {
             // console.log("目前沒有可購票項目（無 button--default）");
             ticketMessage = "沒有票";
           }else {
@@ -144,7 +136,28 @@ async function checkTickets() {
           let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
 
           console.log(messageBody)
-        })
+  
+        
+        // articleContent.each((i, e) => {
+        //   articleContentDetail = $(e)
+        //   // const blockTicket = b.find(".block-ticket")
+        //   const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
+        //   // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
+        //   // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+  
+        //   if (articleContent.length === 0) {
+        //     // console.log("目前沒有可購票項目（無 button--default）");
+        //     ticketMessage = "沒有票";
+        //   }else {
+        //     ticketMessage = "搶票了!!!";
+        //   }
+    
+        //   // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
+        //   // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
+        //   let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
+
+        //   console.log(messageBody)
+        // })
       })
 
   
