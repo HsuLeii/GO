@@ -3,6 +3,9 @@ const app = express();
 const http = require('http').Server(app); // <--- 關鍵：這行必須在 io 之前定義
 const path = require('path');
 
+// 這行是關鍵！它告訴 Express：如果有人要檔案，去 Content 資料夾找
+app.use('/Content', express.static(path.join(__dirname, 'Content')));
+
 // 設定 PORT
 const PORT = process.env.PORT || 3000;
 
