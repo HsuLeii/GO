@@ -118,7 +118,7 @@ async function checkTickets() {
 
       
 
-      $('div').each((index, element) => {
+      article.each((index, element) => {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
   
