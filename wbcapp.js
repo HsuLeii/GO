@@ -110,7 +110,7 @@ async function checkTicketsAndNotify() {
     // sendLineMessage(messageText)
 
     setInterval(() => {
-    const statusMsg = `${messageText}[${new Date().toLocaleString()}]`;
+    const statusMsg = `${messageText}\n\n\n${new Date().toLocaleString()}`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
