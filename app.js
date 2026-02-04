@@ -122,6 +122,7 @@ async function checkTickets() {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
   
+        ticketMessage = "沒有票";
         
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
@@ -151,7 +152,7 @@ async function checkTickets() {
    
       // 定時傳送訊息
 setInterval(() => {
-    const statusMsg = `系統狀態：正常 (${messageBody})[${new Date().toLocaleString()}]`;
+    const statusMsg = `系統狀態：正常${ticketMessage} (${messageBody})[${new Date().toLocaleString()}]`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 }
