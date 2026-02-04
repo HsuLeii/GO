@@ -106,33 +106,7 @@ async function checkTicketsAndNotify() {
     const messageText = formatLineMessage(ticketInfoList)
     console.log(messageText)
 
-    // 6. 發送訊息
-    // sendLineMessage(messageText)
-
-    setInterval(() => {
-    // 假設你在這裡抓取到了最新的 ticketList
-    ticketList.forEach((ticket) => {
-        
-        // 加入條件判斷：只有刊登數為 0 時才執行發送
-        if (ticket.listings_count === 0) {
-            
-            const now = new Date().toLocaleString('zh-TW', {
-                timeZone: 'Asia/Taipei',
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-            });
-
-            const msg = `⚠️ 目前無刊登：${ticket.name}<br>時間：${now}`;
-            
-            // 只有符合條件才會 emit 訊息
-            io.emit('message', msg);
-        }else{
-            const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
-    io.emit('chat_message', statusMsg); 
-        }
-    });
-}, 10000);
+    
 
 //     setInterval(() => {
 //         const now = new Date().toLocaleString('zh-TW', {
@@ -221,16 +195,48 @@ const targetId = 1518; // 你想找的 ID
 function formatLineMessage(ticketList) {
   let content = ``
 
-  ticketList.forEach((ticket) => {
-    content += `刊登數: ${ticket.listings_count}<br>`
+  setInterval(() => {
+    // 假設你在這裡抓取到了最新的 ticketList
+    ticketList.forEach((ticket) => {
+        
+        content += `刊登數: ${ticket.listings_count}<br>`
     content += `日期：: ${ticket.date}<br>`
-    //   content += `📊 狀態: ${ticket.status}\n`
-  })
+
+        // 加入條件判斷：只有刊登數為 0 時才執行發送
+        if (ticket.listings_count === 0) {
+            
+            const now = new Date().toLocaleString('zh-TW', {
+                timeZone: 'Asia/Taipei',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+
+            const msg = `⚠️ 目前無刊登：${ticket.name}<br>時間：${now}`;
+            
+            // 只有符合條件才會 emit 訊息
+            const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
+    io.emit('chat_message', statusMsg); 
+        }
+    });
+}, 10000);
+
+//   ticketList.forEach((ticket) => {
+//     content += `刊登數: ${ticket.listings_count}<br>`
+//     content += `日期：: ${ticket.date}<br>`
+//     //   content += `📊 狀態: ${ticket.status}\n`
+//   })
 
   content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>`
 
   return content
 }
+
+// 6. 發送訊息
+    // sendLineMessage(messageText)
+
+
+    
 
 // // 執行
 // checkTicketsAndNotify()
