@@ -76,10 +76,10 @@ async function checkTickets() {
         timeout: 15000, // 15 秒超時
       })
   
-      if (response.status !== 200) {
-        console.error(`網頁請求失敗，狀態碼: ${response.status}`)
-        return
-      }
+      // if (response.status !== 200) {
+      //   console.error(`網頁請求失敗，狀態碼: ${response.status}`)
+      //   return
+      // }
   
       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
     const $ = cheerio.load(response.data)
