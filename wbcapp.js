@@ -48,7 +48,16 @@ TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // t
   NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
 
-
+const now = new Date().toLocaleString('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+});
 
 // 主程式
 async function checkTicketsAndNotify() {
@@ -110,7 +119,7 @@ async function checkTicketsAndNotify() {
     // sendLineMessage(messageText)
 
     setInterval(() => {
-    const statusMsg = `${messageText}\n\n\n${new Date().toLocaleString()}`;
+    const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
     io.emit('chat_message', statusMsg); 
 }, 10000);
 
