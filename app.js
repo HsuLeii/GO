@@ -86,7 +86,7 @@ async function checkTickets() {
       // const article = $("div")
       // 3. 構建訊息
       let messageBody = "有票嗎?"
-              let ticketMessage = "沒有票";
+      let ticketMessage = "沒有票";
 
   
       // article.each((index, element) => {
@@ -128,11 +128,11 @@ async function checkTickets() {
         articleContent.each((i, e) => {
           articleContentDetail = $(e)
           // const blockTicket = b.find(".block-ticket")
-          const ticketBlocks = articleContentDetail.find(".MuiStack-root")
+          const ticketBlocks = articleContentDetail.find(".css-1ic5vw3")
           // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
-          const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
+          // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
-          if (ticketButtonsPrimary.length === 0) {
+          if (ticketBlocks.length === 0) {
             // console.log("目前沒有可購票項目（無 button--default）");
             ticketMessage = "沒有票";
           }else {
@@ -141,7 +141,7 @@ async function checkTickets() {
     
           // 提取所需資訊（根據目前 eplus 頁面結構調整 selector）
           // const ticketTitle = b.find(".block-ticket:not(.hidden)").find(".block-ticket__title").text().trim() || "未知票種"
-          messageBody += `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
+          let messageBody = `${ticketMessage}\n⚾ 賽事: \n\n\n\n`
 
           console.log(messageBody)
         })
