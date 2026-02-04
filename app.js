@@ -132,7 +132,7 @@ async function checkTickets() {
           // const ticketButtons = ticketBlocks.find(".css-1ic5vw3")
           // const ticketButtonsPrimary = ticketBlocks.find(".css-1ic5vw3")
   
-          if (ticketBlocks.length === 0) {
+          if (articleContent.length === 0) {
             // console.log("目前沒有可購票項目（無 button--default）");
             ticketMessage = "沒有票";
           }else {
