@@ -83,7 +83,7 @@ async function checkTickets() {
   
       // 2. 使用 Cheerio 解析 HTML（比 regex 更穩定可靠）
     const $ = cheerio.load(response.data)
-      // const article = $("div")
+      const article = $("div")
       // 3. 構建訊息
       let messageBody = "有票嗎?"
       let ticketMessage = "沒有票";
@@ -120,7 +120,7 @@ async function checkTickets() {
 
       
 
-      $('div').each(function(index, element) {
+      article.each(function(index, element) {
         const articleAllSection = $(element)
         const articleContent = articleAllSection.find(".MuiContainer-root")
 
