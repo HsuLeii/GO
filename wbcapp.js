@@ -106,19 +106,20 @@ async function checkTicketsAndNotify() {
     const messageText = formatLineMessage(ticketInfoList)
     console.log(messageText)
 
-    
+    // 6. 發送訊息
+    // sendLineMessage(messageText)
 
-//     setInterval(() => {
-//         const now = new Date().toLocaleString('zh-TW', {
-//     timeZone: 'Asia/Taipei',
-//     hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
-//     hour: '2-digit',
-//     minute: '2-digit',
-// });
+    setInterval(() => {
+        const now = new Date().toLocaleString('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
+    hour: '2-digit',
+    minute: '2-digit',
+});
 
-//     const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
-//     io.emit('chat_message', statusMsg); 
-// }, 60000);
+    const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
+    io.emit('chat_message', statusMsg); 
+}, 60000);
 
   } catch (error) {
     console.error("發生錯誤:", error.message)
@@ -205,36 +206,6 @@ function formatLineMessage(ticketList) {
 
   return content
 }
-
-// 6. 發送訊息
-    // sendLineMessage(messageText)
-setInterval(() => {
-
-    // 假設你在這裡抓取到了最新的 ticketList
-
-    ticketList.forEach((ticket) => {
-
-        
-
-        // 加入條件判斷：只有刊登數為 0 時才執行發送
-
-        if (ticket.listings_count === 0) {
-
-            const now = new Date().toLocaleString('zh-TW', {
-                timeZone: 'Asia/Taipei',
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-            });
-
-            const statusMsg = `⚠️ 目前無刊登：${ticket.name}<br>時間：${now}`;
-        }
-
-    });
-
-}, 10000);
-
-    
 
 // // 執行
 // checkTicketsAndNotify()
