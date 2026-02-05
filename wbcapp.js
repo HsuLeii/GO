@@ -238,10 +238,11 @@ function formatLineMessage(ticketList) {
     } else {
         console.log(content);
         
-
-    setInterval(() => {
+        setTimeout(function repeat() {
+    // 執行任務
     const statusMsg = `沒有票<br>(更新時間：${now}`;
     io.emit('chat_message', statusMsg); 
+    setTimeout(repeat, 60000); // 任務完成後再設定下一次
 }, 60000);
     }
   })
