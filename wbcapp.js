@@ -81,7 +81,11 @@ async function checkTicketsAndNotify() {
     
     // 2. 關鍵修正：在這裡統一發送一次 Socket 訊息
     // 這樣每分鐘只會發送「當下」這一次的結果
-    io.emit('chat_message', messageText); 
+    if (ticketInfoList[0].listings_count > 0) {
+        io.emit('chat_message', messageText);
+    }else {
+        io.emit('chat_message', "訊息已發送至網頁端"); 
+    }
     console.log(messageText);
     console.log("訊息已發送至網頁端");
 
