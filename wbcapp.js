@@ -105,8 +105,8 @@ function extractTicketInfo(jsonData) {
   // 模擬抓取邏輯 (範例)
 const items = jsonData?.props?.concerts || []
 
-// const targetId = 1518; // 你想找的 ID
-const targetId = 1526; // 你想找的 ID
+const targetId = 1518; // 你想找的 ID
+// const targetId = 1526; // 你想找的 ID
 
 
   items.forEach((item) => {
