@@ -91,7 +91,6 @@ async function checkTicketsAndNotify() {
     }else {
         io.emit('chat_message', messageText.forWeb);
     }
-    console.log(messageText);
 
   } catch (error) {
     console.error("發生錯誤:", error.message);
