@@ -50,7 +50,7 @@ const CONFIG = {
     CHANNEL_ACCESS_TOKEN : process.env.LINE_CHANNEL_ACCESS_TOKEN, // LINE Messaging API 的 Channel Access Token
     USER_ID : process.env.LINE_USER_ID, // 你的 LINE User ID (U開頭)
     TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1520", // tixplus 售票網址
-    CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
+    CHECK_INTERVAL: "*/3 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
     NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
 
@@ -95,7 +95,7 @@ async function checkTicketsAndNotify() {
     }else {
         io.emit('chat_message', messageText.forWeb);
 
-        sendLineMessage(messageText.forLine);
+        // sendLineMessage(messageText.forLine);
     }
 
   } catch (error) {
