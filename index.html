@@ -30,7 +30,9 @@
 
         // 監聽伺服器傳來的訊息
         function urlify(text) {
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            // 修改這裡：[^\s<]+ 代表遇到「空白」或「 < 」就停止抓取網址
+            const urlRegex = /(https?:\/\/[^\s<]+)/g;
+            
             return text.replace(urlRegex, function (url) {
                 return `<a href="${url}" target="_blank">${`點我購票`}</a>`;
             });
