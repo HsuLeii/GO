@@ -10,16 +10,17 @@
 
     ul {
         padding: 15px;
-        border: 1px solid c.$main_color_orange;
         width: 95vw;
         height: 95vh;
-        overflow-y: scroll;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
 
         li {
             margin: 0 0 10px;
             padding: 5px;
 
-            a{
+            a {
                 color: c.$brown;
                 word-break: break-all;
             }

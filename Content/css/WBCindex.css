@@ -213,10 +213,11 @@ body {
 }
 .messages_area ul {
   padding: 15px;
-  border: 1px solid #ed710e;
   width: 95vw;
   height: 95vh;
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
 }
 .messages_area ul li {
   margin: 0 0 10px;
