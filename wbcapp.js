@@ -180,12 +180,14 @@ function formatLineMessage(ticketList) {
     // --- 判斷標題 ---
     const title = ticket.listings_count > 0 ? "有票了！" : "目前沒票";
 
-    if (ticket.listings_count < 0) {
-        $(".ticket_title").addClass("none");
+    // 建立一個變數來存 class 名稱
+    let titleClass = "";
+    if (ticket.listings_count <= 0) {
+        titleClass = "none"; // 當數量小於等於 0 時，套用 none 這個 class
     }
-    
+
     // --- 網頁版格式 (HTML) ---
-    webContent += `<h3 class="ticket_title">${title}</h3>`;
+    webContent += `<h3 class="${titleClass}">${title}</h3>`;
     webContent += `<p>刊登數: ${ticket.listings_count}</p>`;
     webContent += `<p>立即查看: ${CONFIG.TARGET_URL}</p>`;
     webContent += `<p>日期: ${ticket.date}</p>`;
