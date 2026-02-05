@@ -180,7 +180,7 @@ function formatLineMessage(ticketList) {
     const title = ticket.listings_count > 0 ? "有票了！" : "目前沒票";
 
     // --- 網頁版格式 (HTML) ---
-    webContent += `<h3>${title}</h3>`;
+    webContent += `<h3 class="ticket_title">${title}</h3>`;
     webContent += `<p>刊登數: ${ticket.listings_count}</p>`;
     webContent += `<p>立即查看: ${CONFIG.TARGET_URL}</p>`;
     webContent += `<p>日期: ${ticket.date}</p>`;
