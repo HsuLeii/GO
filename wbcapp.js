@@ -127,7 +127,11 @@ async function fetchTickets() {
 
 
 // 3. 執行定時任務
-    
+                      let abc = ticketList.ticket.listings_count
+                    console.log(abc)
+
+                    
+                    
 
     // 6. 發送訊息
     // sendLineMessage(messageText)
@@ -226,30 +230,12 @@ function formatLineMessage(ticketList) {
     content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
 
     //   content += `📊 狀態: ${ticket.status}\n`
-                  
+
   })
 
-  let abc = ticket.listings_count
-                    console.log(abc)
-  if (abc !== 0) {
-       setInterval(() => {
-    const statusMsg = `${content}`;
-    io.emit('chat_message', statusMsg); 
-}, 60000);
-    } else {
-        console.log(content);
-        
-        setTimeout(function repeat() {
-    // 執行任務
-    const statusMsg = `沒有票<br>(更新時間：${now}`;
-    io.emit('chat_message', statusMsg); 
-    setTimeout(repeat, 60000); // 任務完成後再設定下一次
-}, 60000);
-    }
 
   return content
 }
-
 
 // // 執行
 // checkTicketsAndNotify()
