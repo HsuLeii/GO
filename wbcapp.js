@@ -210,99 +210,45 @@ const targetId = 1518; // 你想找的 ID
 
 // 輔助函式：排版 LINE 訊息
 
-// function formatLineMessage(ticketList) {
-//   let content = ``
+function formatLineMessage(ticketList) {
+  let content = ``
 
-//   const now = new Date().toLocaleString('zh-TW', {
-//     timeZone: 'Asia/Taipei',
-//     hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
-//     hour: '2-digit',
-//     minute: '2-digit',
-// });
+  const now = new Date().toLocaleString('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
+    hour: '2-digit',
+    minute: '2-digit',
+});
 
-//   ticketList.forEach((ticket) => {
-//     content += `刊登數: ${ticket.listings_count}<br>`
-//     content += `日期: ${ticket.date}<br>`
-//     content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
+  ticketList.forEach((ticket) => {
+    content += `刊登數: ${ticket.listings_count}<br>`
+    content += `日期: ${ticket.date}<br>`
+    content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
 
-//     //   content += `📊 狀態: ${ticket.status}\n`
-//                   let abc = ticket.listings_count
-//                     console.log(abc)
-//   })
+    //   content += `📊 狀態: ${ticket.status}\n`
+                  
+  })
 
-//   if (abc !== 0) {
-//        setInterval(() => {
-//     const statusMsg = `${content}`;
-//     io.emit('chat_message', statusMsg); 
-// }, 60000);
-//     } else {
-//         console.log(content);
-        
-//         setTimeout(function repeat() {
-//     // 執行任務
-//     const statusMsg = `沒有票<br>(更新時間：${now}`;
-//     io.emit('chat_message', statusMsg); 
-//     setTimeout(repeat, 60000); // 任務完成後再設定下一次
-// }, 60000);
-//     }
-
-//   return content
-// }
-
-// 1. 負責格式化訊息的工具函式 (只負責組裝字串，不負責發送)
-function formatMessage(ticketList) {
-    const now = new Date().toLocaleString('zh-TW', {
-        timeZone: 'Asia/Taipei',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-    });
-
-    let content = "";
-    let hasTickets = false;
-
-    // 檢查是否有任何一筆資料有票
-    ticketList.forEach((ticket) => {
-        if (ticket.listings_count > 0) {
-            hasTickets = true;
-            content += `刊登數: ${ticket.listings_count}<br>`;
-            content += `日期: ${ticket.date}<br>`;
-            content += `立即查看: ${CONFIG.TARGET_URL}<br>------------------<br>`;
-        }
-    });
-
-    if (hasTickets) {
-        return `${content}(更新時間：${now})`;
+  let abc = ticket.listings_count
+                    console.log(abc)
+  if (abc !== 0) {
+       setInterval(() => {
+    const statusMsg = `${content}`;
+    io.emit('chat_message', statusMsg); 
+}, 60000);
     } else {
-        return `沒有票<br>(更新時間：${now})`;
-    }
-}
-
-// 2. 核心工作流程 (抓取並發送)
-async function taskRunner() {
-    try {
-        console.log("正在重新抓取資料...");
+        console.log(content);
         
-        // 這裡放你原本抓取資料庫或網頁的邏輯
-        const ticketList = await fetchLatestData(); 
-
-        // 呼叫組裝字串的函式
-        const statusMsg = formatMessage(ticketList);
-
-        // 統一發送，每次任務只會發送「一則」訊息
-        io.emit('chat_message', statusMsg);
-        
-    } catch (error) {
-        console.error("執行失敗:", error);
+        setTimeout(function repeat() {
+    // 執行任務
+    const statusMsg = `沒有票<br>(更新時間：${now}`;
+    io.emit('chat_message', statusMsg); 
+    setTimeout(repeat, 60000); // 任務完成後再設定下一次
+}, 60000);
     }
+
+  return content
 }
-
-// 3. 設定計時器：每 60 秒執行一次工作流程
-// 這樣能保證「每分鐘抓新資料」，且「不會有多餘的計時器」
-setInterval(taskRunner, 60000);
-
-// 程式啟動時先執行一次，不用等第一分鐘
-taskRunner();
 
 
 // // 執行
