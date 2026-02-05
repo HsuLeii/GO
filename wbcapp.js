@@ -93,6 +93,7 @@ async function checkTicketsAndNotify() {
         sendLineMessage(messageText.forLine);
 
     }else {
+        $(".ticket_title").addClass("none");
         io.emit('chat_message', messageText.forWeb);
 
         // sendLineMessage(messageText.forLine);
