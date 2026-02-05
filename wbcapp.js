@@ -240,7 +240,7 @@ function formatLineMessage(ticketList) {
         
 
     setInterval(() => {
-    const statusMsg = `沒有票`;
+    const statusMsg = `沒有票<br>(更新時間：${now}`;
     io.emit('chat_message', statusMsg); 
 }, 60000);
     }
