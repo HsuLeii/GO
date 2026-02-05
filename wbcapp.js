@@ -47,7 +47,7 @@ const cron = require("node-cron")
 const CONFIG = {
 //   TARGET_URL: "https://tradead.tixplus.jp/wbc2026", // tixplus 售票網址
 TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // tixplus 售票網址
-  CHECK_INTERVAL: "*/3 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
+  CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
   NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
 // 主程式
@@ -106,20 +106,31 @@ async function checkTicketsAndNotify() {
     const messageText = formatLineMessage(ticketInfoList)
     console.log(messageText)
 
+    
+    
+// 1. 在最外層定義一個空陣列，確保 setInterval 找得到它
+let ticketList = []; 
+
+// 2. 假設你有一個抓取資料的函式
+async function fetchTickets() {
+    try {
+        // 這裡是你抓取資料的邏輯，例如：
+        // const response = await axios.get('你的 API 網址');
+        // ticketList = response.data; 
+        
+        console.log("資料已更新");
+    } catch (error) {
+        console.error("抓取失敗:", error);
+    }
+}
+
+
+
+// 3. 執行定時任務
+    
+
     // 6. 發送訊息
     // sendLineMessage(messageText)
-
-    setInterval(() => {
-        const now = new Date().toLocaleString('zh-TW', {
-    timeZone: 'Asia/Taipei',
-    hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
-    hour: '2-digit',
-    minute: '2-digit',
-});
-
-    const statusMsg = `${messageText}\n\n\n(更新時間：${now})`;
-    io.emit('chat_message', statusMsg); 
-}, 60000);
 
   } catch (error) {
     console.error("發生錯誤:", error.message)
@@ -148,8 +159,14 @@ const targetId = 1518; // 你想找的 ID
         //  status: item.status || "銷售中", // 例如：有無票券
         listings_count: item.listings_count,
       })
+
+
     }
+
   })
+
+
+
 
   // 如果找不到陣列，為了測試先回傳一個假資料 (正式上線請移除)
   //   if (results.length === 0) {
@@ -196,13 +213,36 @@ const targetId = 1518; // 你想找的 ID
 function formatLineMessage(ticketList) {
   let content = ``
 
+  const now = new Date().toLocaleString('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
+    hour: '2-digit',
+    minute: '2-digit',
+});
+
   ticketList.forEach((ticket) => {
     content += `刊登數: ${ticket.listings_count}<br>`
-    content += `日期：: ${ticket.date}<br>`
+    content += `日期: ${ticket.date}<br>`
+    content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
+
     //   content += `📊 狀態: ${ticket.status}\n`
+                  let abc = ticket.listings_count
+                    console.log(abc)
+
+                    
+                    if (abc !== 0) {
+       console.log("目前有票券");
+    } else {
+        console.log(content);
+        
+
+    setInterval(() => {
+    const statusMsg = `${content}`;
+    io.emit('chat_message', statusMsg); 
+}, 60000);
+    }
   })
 
-  content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>`
 
   return content
 }
