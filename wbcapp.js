@@ -135,10 +135,10 @@ function formatLineMessage(ticketList) {
         content += `<strong>🔥 有票了！</strong><br>`;
     }
 
-    content += `刊登數: ${ticket.listings_count}<br>`;
-    content += `立即查看: ${CONFIG.TARGET_URL}<br>`;
-    content += `日期: ${ticket.date}<br>`;
-    content += `<div>(更新時間：${now})</div><br>`;
+    content += `<p>刊登數: ${ticket.listings_count}</p><br>`;
+    content += `<p>立即查看: ${CONFIG.TARGET_URL}</p><br>`;
+    content += `<p>日期: ${ticket.date}</p><br>`;
+    content += `<p>(更新時間：${now})</p><br>`;
   });
 
   return content;
