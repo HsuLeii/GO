@@ -95,7 +95,7 @@ async function checkTicketsAndNotify() {
     }else {
         io.emit('chat_message', messageText.forWeb);
 
-        // sendLineMessage(messageText.forLine);
+        sendLineMessage(messageText.forLine);
     }
 
   } catch (error) {
