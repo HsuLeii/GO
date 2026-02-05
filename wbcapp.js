@@ -136,8 +136,8 @@ function formatLineMessage(ticketList) {
     }
 
     content += `刊登數: ${ticket.listings_count}<br>`;
-    content += `日期: ${ticket.date}<br>`;
     content += `立即查看: ${CONFIG.TARGET_URL}<br>`;
+    content += `日期: ${ticket.date}<br>`;
     content += `(更新時間：${now})<br>`;
   });
 
