@@ -180,6 +180,10 @@ function formatLineMessage(ticketList) {
     // --- 判斷標題 ---
     const title = ticket.listings_count > 0 ? "有票了！" : "目前沒票";
 
+    if (ticket.listings_count < 0) {
+        $(".ticket_title").addClass("none");
+    }
+    
     // --- 網頁版格式 (HTML) ---
     webContent += `<h3 class="ticket_title">${title}</h3>`;
     webContent += `<p>刊登數: ${ticket.listings_count}</p>`;
