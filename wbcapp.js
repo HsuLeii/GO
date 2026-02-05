@@ -45,10 +45,10 @@ const cron = require("node-cron")
 
 // ==================== 設定區 ====================
 const CONFIG = {
-//   TARGET_URL: "https://tradead.tixplus.jp/wbc2026", // tixplus 售票網址
-TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // tixplus 售票網址
-  CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
-  NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
+    
+    TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // tixplus 售票網址
+    CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
+    NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
 
 // 主程式：每分鐘由 cron 觸發
@@ -82,17 +82,53 @@ async function checkTicketsAndNotify() {
     // 2. 關鍵修正：在這裡統一發送一次 Socket 訊息
     // 這樣每分鐘只會發送「當下」這一次的結果
     if (ticketInfoList[0].listings_count > 0) {
-        io.emit('chat_message', messageText);
+        // 2. 發送到網頁 (使用 forWeb)
+        io.emit('chat_message', messageText.forWeb);
+
+        // 3. 發送到 LINE (使用 forLine)
+        // 假設你原本發送 LINE 的 function 叫 sendLineMessage
+        // sendLineMessage(messageText.forLine);
     }else {
-        io.emit('chat_message', "訊息已發送至網頁端"); 
+        io.emit('chat_message', "沒有票"); 
     }
     console.log(messageText);
-    console.log("訊息已發送至網頁端");
 
   } catch (error) {
     console.error("發生錯誤:", error.message);
   }
 }
+
+// async function sendLineMessage(text) {
+//   const url = "https://api.line.me/v2/bot/message/push"
+
+//   const payload = {
+//     to: CONFIG.USER_ID,
+//     messages: [
+//       {
+//         type: "text",
+//         text: text,
+//       },
+//     ],
+//   }
+
+//   try {
+//     const response = await axios.post(url, payload, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${CONFIG.CHANNEL_ACCESS_TOKEN}`,
+//       },
+//     })
+
+//     if (response.status === 200) {
+//       console.log("LINE 通知發送成功")
+//     } else {
+//       console.error("LINE 發送失敗:", response.data)
+//     }
+//   } catch (error) {
+//     console.error("LINE 發送錯誤:", error.response?.data || error.message)
+//   }
+// }
+
 
 // 輔助函式：提取關鍵資訊 (需根據實際 JSON 結構客製化)
 function extractTicketInfo(jsonData) {
@@ -124,7 +160,9 @@ const targetId = 1518; // 你想找的 ID
 }
 
 function formatLineMessage(ticketList) {
-  let content = ""; // 每次進入 function 都會是空的
+  let webContent = "";  // 給網頁用的 (有 <br>, <h3>)
+  let lineContent = ""; // 給 LINE 用的 (用 \n 換行)
+
   const now = new Date().toLocaleString('zh-TW', {
     timeZone: 'Asia/Taipei',
     hour12: false,
@@ -133,19 +171,28 @@ function formatLineMessage(ticketList) {
   });
 
   ticketList.forEach((ticket) => {
-    // 這裡就是你原本要求的 if 判斷式
-    // 如果刊登數為 0，可以選擇不顯示或顯示「無」
-    if (ticket.listings_count > 0) {
-        content += `<h3>有票了！</h3><br>`;
-    }
+    // --- 判斷標題 ---
+    const title = ticket.listings_count > 0 ? "有票了！" : "目前沒票";
 
-    content += `<p>刊登數: ${ticket.listings_count}</p>`;
-    content += `<p>立即查看: ${CONFIG.TARGET_URL}</p>`;
-    content += `<p>日期: ${ticket.date}</p>`;
-    content += `<p>(更新時間：${now})</p>`;
+    // --- 網頁版格式 (HTML) ---
+    webContent += `<h3>${title}</h3>`;
+    webContent += `<p>刊登數: ${ticket.listings_count}</p>`;
+    webContent += `<p>立即查看: ${CONFIG.TARGET_URL}</p>`;
+    webContent += `<p>日期: ${ticket.date}</p>`;
+    webContent += `<p>(更新時間：${now})</p>`;
+
+    // --- LINE 版格式 (純文字 + 換行符號 \n) ---
+    lineContent += `${title}\n`; // LINE 不吃 <h3>，直接寫文字
+    lineContent += `刊登數: ${ticket.listings_count}\n`;
+    lineContent += `立即查看: ${CONFIG.TARGET_URL}\n`;
+    lineContent += `日期: ${ticket.date}\n`;
+    lineContent += `(更新時間：${now})\n`;
   });
 
-  return content;
+  return {
+    forWeb: webContent,
+    forLine: lineContent
+  };
 }
 
 // ==================== 啟動 ====================
