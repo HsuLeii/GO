@@ -210,81 +210,79 @@ const targetId = 1518; // 你想找的 ID
 
 // 輔助函式：排版 LINE 訊息
 
-// function formatLineMessage(ticketList) {
-//   let content = ``
-
-//   const now = new Date().toLocaleString('zh-TW', {
-//     timeZone: 'Asia/Taipei',
-//     hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
-//     hour: '2-digit',
-//     minute: '2-digit',
-// });
-
-//   ticketList.forEach((ticket) => {
-//     content += `刊登數: ${ticket.listings_count}<br>`
-//     content += `日期: ${ticket.date}<br>`
-//     content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
-
-//     //   content += `📊 狀態: ${ticket.status}\n`
-//                   let abc = ticket.listings_count
-//                     console.log(abc)
-
-                    
-//                     if (abc !== 0) {
-//        setInterval(() => {
-//     const statusMsg = `${content}`;
-//     io.emit('chat_message', statusMsg); 
-// }, 60000);
-//     } else {
-//         console.log(content);
-        
-//         setTimeout(function repeat() {
-//     // 執行任務
-//     const statusMsg = `沒有票<br>(更新時間：${now}`;
-//     io.emit('chat_message', statusMsg); 
-//     setTimeout(repeat, 60000); // 任務完成後再設定下一次
-// }, 60000);
-//     }
-//   })
-
-
-//   return content
-// }
-
-
-// 將邏輯封裝成一個 function
 function formatLineMessage(ticketList) {
-    let content = ``
-    let hasTickets = false;
-    const now = new Date().toLocaleString('zh-TW', {
+  let content = ``
+
+  const now = new Date().toLocaleString('zh-TW', {
     timeZone: 'Asia/Taipei',
     hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
     hour: '2-digit',
     minute: '2-digit',
-}); // 取得當前更新時間
+});
 
-    // 1. 先跑迴圈，把所有資料組合成一個字串
-    ticketList.forEach((ticket) => {
-        if (ticket.listings_count > 0) {
-            hasTickets = true;
-            content += `刊登數: ${ticket.listings_count}<br>`;
-            content += `日期: ${ticket.date}<br>`;
-            content += `立即查看: ${CONFIG.TARGET_URL}<br>`;
-            content += `--------------------<br>`; // 分隔線
-        }
-    });
+  ticketList.forEach((ticket) => {
+    content += `刊登數: ${ticket.listings_count}<br>`
+    content += `日期: ${ticket.date}<br>`
+    content += `\n立即查看:\n${CONFIG.TARGET_URL}<br>(更新時間：${now})`
 
-    // 2. 判斷完結果後，只發送「一次」訊息
-    let statusMsg = "";
-    if (hasTickets) {
-        statusMsg = `${content}(更新時間：${now})`;
+    //   content += `📊 狀態: ${ticket.status}\n`
+                  let abc = ticket.listings_count
+                    console.log(abc)
+  })
+
+  if (abc !== 0) {
+       setInterval(() => {
+    const statusMsg = `${content}`;
+    io.emit('chat_message', statusMsg); 
+}, 60000);
     } else {
-        statusMsg = `沒有票<br>(更新時間：${now})`;
+        console.log(content);
+        
+        setTimeout(function repeat() {
+    // 執行任務
+    const statusMsg = `沒有票<br>(更新時間：${now}`;
+    io.emit('chat_message', statusMsg); 
+    setTimeout(repeat, 60000); // 任務完成後再設定下一次
+}, 60000);
     }
 
-    io.emit('chat_message', statusMsg);
-    console.log("訊息已發送:", now);
+  return content
 }
+
+
+// 將邏輯封裝成一個 function
+// function formatLineMessage(ticketList) {
+//     let content = ``
+//     let hasTickets = false;
+//     const now = new Date().toLocaleString('zh-TW', {
+//     timeZone: 'Asia/Taipei',
+//     hour12: false, // 如果想要 24 小時制就寫 false，想要 AM/PM 就寫 true
+//     hour: '2-digit',
+//     minute: '2-digit',
+// }); // 取得當前更新時間
+
+//     // 1. 先跑迴圈，把所有資料組合成一個字串
+//     ticketList.forEach((ticket) => {
+//         if (ticket.listings_count > 0) {
+//             hasTickets = true;
+//             content += `刊登數: ${ticket.listings_count}<br>`;
+//             content += `日期: ${ticket.date}<br>`;
+//             content += `立即查看: ${CONFIG.TARGET_URL}<br>`;
+//             content += `--------------------<br>`; // 分隔線
+//         }
+//     });
+
+//     // 2. 判斷完結果後，只發送「一次」訊息
+//     let statusMsg = "";
+//     if (hasTickets) {
+//         statusMsg = `${content}(更新時間：${now})`;
+//     } else {
+//         statusMsg = `沒有票<br>(更新時間：${now})`;
+//     }
+
+//     io.emit('chat_message', statusMsg);
+//     console.log("訊息已發送:", now);
+// }
 
 // 3. 使用一個全域的 setInterval，每 60 秒執行一次整個檢查邏輯
 // 不要把 setInterval 放在 forEach 裡面
