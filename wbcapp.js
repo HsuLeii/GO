@@ -89,7 +89,7 @@ async function checkTicketsAndNotify() {
         // 假設你原本發送 LINE 的 function 叫 sendLineMessage
         // sendLineMessage(messageText.forLine);
     }else {
-        io.emit('chat_message', "沒有票"); 
+        io.emit('chat_message', messageText.forWeb);
     }
     console.log(messageText);
 
