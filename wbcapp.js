@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app); // <--- 關鍵：這行必須在 io 之前定義
@@ -45,8 +47,9 @@ const cron = require("node-cron")
 
 // ==================== 設定區 ====================
 const CONFIG = {
-    
-    TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1526", // tixplus 售票網址
+    CHANNEL_ACCESS_TOKEN : process.env.LINE_CHANNEL_ACCESS_TOKEN, // LINE Messaging API 的 Channel Access Token
+    USER_ID : process.env.LINE_USER_ID, // 你的 LINE User ID (U開頭)
+    TARGET_URL: "https://tradead.tixplus.jp/wbc2026/buy/bidding/listings/1520", // tixplus 售票網址
     CHECK_INTERVAL: "*/1 * * * *", // cron 格式，每 1 分鐘檢查一次（可自行調整）
     NUMBER_OF_REMINDERS: 1, // 刊登數量提醒，預設 1，意即只要有刊登就會提醒
 }
@@ -87,9 +90,12 @@ async function checkTicketsAndNotify() {
 
         // 3. 發送到 LINE (使用 forLine)
         // 假設你原本發送 LINE 的 function 叫 sendLineMessage
-        // sendLineMessage(messageText.forLine);
+        sendLineMessage(messageText.forLine);
+
     }else {
         io.emit('chat_message', messageText.forWeb);
+
+        // sendLineMessage(messageText.forLine);
     }
 
   } catch (error) {
@@ -97,36 +103,36 @@ async function checkTicketsAndNotify() {
   }
 }
 
-// async function sendLineMessage(text) {
-//   const url = "https://api.line.me/v2/bot/message/push"
+async function sendLineMessage(text) {
+  const url = "https://api.line.me/v2/bot/message/push"
 
-//   const payload = {
-//     to: CONFIG.USER_ID,
-//     messages: [
-//       {
-//         type: "text",
-//         text: text,
-//       },
-//     ],
-//   }
+  const payload = {
+    to: CONFIG.USER_ID,
+    messages: [
+      {
+        type: "text",
+        text: text,
+      },
+    ],
+  }
 
-//   try {
-//     const response = await axios.post(url, payload, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${CONFIG.CHANNEL_ACCESS_TOKEN}`,
-//       },
-//     })
+  try {
+    const response = await axios.post(url, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${CONFIG.CHANNEL_ACCESS_TOKEN}`,
+      },
+    })
 
-//     if (response.status === 200) {
-//       console.log("LINE 通知發送成功")
-//     } else {
-//       console.error("LINE 發送失敗:", response.data)
-//     }
-//   } catch (error) {
-//     console.error("LINE 發送錯誤:", error.response?.data || error.message)
-//   }
-// }
+    if (response.status === 200) {
+      console.log("LINE 通知發送成功")
+    } else {
+      console.error("LINE 發送失敗:", response.data)
+    }
+  } catch (error) {
+    console.error("LINE 發送錯誤:", error.response?.data || error.message)
+  }
+}
 
 
 // 輔助函式：提取關鍵資訊 (需根據實際 JSON 結構客製化)
@@ -199,7 +205,7 @@ function formatLineMessage(ticketList) {
 // 或使用 cron 定時執行
 // cron.schedule(CONFIG.CHECK_INTERVAL, () => {
 // 1. 程式啟動時先立即執行一次
-checkTicketsAndNotify();
+// checkTicketsAndNotify();
 
 // 2. 接著才交給鬧鐘，每分鐘跑一次
 
