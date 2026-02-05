@@ -231,13 +231,16 @@ function formatLineMessage(ticketList) {
 
                     
                     if (abc !== 0) {
-       console.log("目前有票券");
+       setInterval(() => {
+    const statusMsg = `${content}`;
+    io.emit('chat_message', statusMsg); 
+}, 60000);
     } else {
         console.log(content);
         
 
     setInterval(() => {
-    const statusMsg = `${content}`;
+    const statusMsg = `沒有票`;
     io.emit('chat_message', statusMsg); 
 }, 60000);
     }
