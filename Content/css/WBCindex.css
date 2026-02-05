@@ -63,6 +63,7 @@ p,
 svg {
   font-size: 14px;
   line-height: 1.7;
+  color: black;
 }
 
 span,
@@ -173,37 +174,6 @@ body {
   color: #fff;
 }
 
-@media screen and (min-width: 768px) {
-  h1 {
-    font-size: 32px;
-  }
-  h3 {
-    font-size: 27px;
-  }
-  h4 {
-    font-size: 21px;
-  }
-  h5 {
-    font-size: 19px;
-  }
-  p,
-  svg {
-    font-size: 15px;
-  }
-  span,
-  th,
-  td,
-  .form-control {
-    font-size: 15px;
-  }
-  li, a {
-    font-size: 15px;
-  }
-  input,
-  label {
-    font-size: 15px;
-  }
-}
 .messages_area {
   width: 100%;
   height: 100%;
@@ -226,6 +196,11 @@ body {
 .messages_area ul li h3 {
   background-color: red;
   color: #fff;
+}
+.messages_area ul li h3.none {
+  background-color: transparent;
+  font-size: 14px;
+  color: black;
 }
 .messages_area ul li a {
   color: #634218;

@@ -59,6 +59,7 @@ p,
 svg {
     font-size: 14px;
     line-height: 1.7;
+    color: c.$black;
 }
 
 span,
@@ -170,46 +171,4 @@ body {
 ::selection {
     background: c.$main-color;
     color: c.$white;
-}
-
-@media screen and (min-width: 576px) {}
-
-@media screen and (min-width: 768px) {
-    h1 {
-        font-size: 32px;
-    }
-
-    h3 {
-        font-size: 27px;
-    }
-
-    h4 {
-        font-size: 21px;
-    }
-
-    h5{
-        font-size: 19px;
-    }
-
-    p,
-svg {
-        font-size: 15px;
-    }
-
-    span,
-    th,
-    td,
-    .form-control {
-        font-size: 15px;
-    }
-
-    li,a {
-        font-size: 15px;
-    }
-
-    input,
-    label {
-        font-size: 15px;
-    }
-
 }

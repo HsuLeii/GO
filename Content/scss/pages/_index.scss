@@ -21,8 +21,14 @@
             padding: 10px;
 
             h3{
-                    background-color: red;
+                    background-color: c.$red;
                     color: c.$white;
+
+                    &.none{
+                        background-color: transparent;
+                        font-size: 14px;
+                        color: c.$black;
+                    }
             }
 
             a {
