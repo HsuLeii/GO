@@ -221,7 +221,11 @@ body {
 }
 .messages_area ul li {
   margin: 0 0 10px;
-  padding: 5px;
+  padding: 10px;
+}
+.messages_area ul li h3 {
+  background-color: red;
+  color: #fff;
 }
 .messages_area ul li a {
   color: #634218;

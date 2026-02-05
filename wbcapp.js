@@ -132,13 +132,13 @@ function formatLineMessage(ticketList) {
     // 這裡就是你原本要求的 if 判斷式
     // 如果刊登數為 0，可以選擇不顯示或顯示「無」
     if (ticket.listings_count > 0) {
-        content += `<strong>🔥 有票了！</strong><br>`;
+        content += `<h3>有票了！</h3><br>`;
     }
 
-    content += `<p>刊登數: ${ticket.listings_count}</p><br>`;
-    content += `<p>立即查看: ${CONFIG.TARGET_URL}</p><br>`;
-    content += `<p>日期: ${ticket.date}</p><br>`;
-    content += `<p>(更新時間：${now})</p><br>`;
+    content += `<p>刊登數: ${ticket.listings_count}</p>`;
+    content += `<p>立即查看: ${CONFIG.TARGET_URL}</p>`;
+    content += `<p>日期: ${ticket.date}</p>`;
+    content += `<p>(更新時間：${now})</p>`;
   });
 
   return content;
